@@ -13,7 +13,7 @@ class Contacts extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          "Купоны",
+          "Контакты",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
