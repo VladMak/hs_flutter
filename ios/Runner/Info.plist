@@ -44,8 +44,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>https</string>
-	<string>http</string>
+		<string>https</string>
+		<string>http</string>
 	</array>
 	<false/>
 </dict>
