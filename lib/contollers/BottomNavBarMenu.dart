@@ -38,6 +38,9 @@ class _BottomNavBarMenuState extends State<BottomNavBarMenu> {
         Navigator.push(globContext!,
             MaterialPageRoute(builder: (context) => const Cabinet()));
         break;
+      default:
+        print("JOPPAAAA");
+        break;
     }
   }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
+import 'package:myapp/contollers/FloatingBut.dart';
+import 'package:myapp/models/Db.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -25,22 +27,7 @@ class _HomeState extends State<Home> {
       drawer: DrawerMenu(),
       body: HomeView(),
       bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
+      floatingActionButton: FloatingBut(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -58,6 +45,12 @@ class HomeView extends StatelessWidget {
       children: <Widget>[
         Column(
           children: [
+            ElevatedButton(
+                onPressed: () {
+                  var test = Db();
+                  test.testConnect();
+                },
+                child: Text("BUT")),
             CarouselSales(),
             Text("Каталог"),
             CatalogView(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/contollers/FloatingBut.dart';
 
 class Coupons extends StatelessWidget {
   const Coupons({Key? key}) : super(key: key);
@@ -19,22 +20,7 @@ class Coupons extends StatelessWidget {
       drawer: DrawerMenu(),
       body: CouponsView(),
       bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
+      floatingActionButton: FloatingBut(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

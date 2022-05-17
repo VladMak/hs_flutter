@@ -3,6 +3,7 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:myapp/contollers/FloatingBut.dart';
 
 class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -26,22 +27,7 @@ class _CabinetState extends State<Cabinet> {
       drawer: DrawerMenu(),
       body: CabinetView(),
       bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
+      floatingActionButton: FloatingBut(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

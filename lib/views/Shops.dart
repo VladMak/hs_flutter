@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:myapp/contollers/FloatingBut.dart';
 
 class Shops extends StatelessWidget {
   const Shops({Key? key}) : super(key: key);
@@ -20,22 +21,7 @@ class Shops extends StatelessWidget {
       drawer: DrawerMenu(),
       body: ShopsView(),
       bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
+      floatingActionButton: FloatingBut(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
     ;
