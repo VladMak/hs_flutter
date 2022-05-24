@@ -5,7 +5,7 @@ import 'package:myapp/models/Shop.dart';
 import 'package:myapp/models/ShopsCollection.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-class Shops extends StatelessWidget {
+/*class Shops extends StatelessWidget {
   const Shops({Key? key}) : super(key: key);
 
   @override
@@ -21,18 +21,18 @@ class Shops extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: ShopsView(),
-      bottomNavigationBar: BottomNavBarMenu(),
+      //bottomNavigationBar: BottomNavBarMenu(),
     );
     ;
   }
-}
+}*/
 
-class ShopsView extends StatefulWidget {
+class Shops extends StatefulWidget {
   @override
   ShopsViewState createState() => ShopsViewState();
 }
 
-class ShopsViewState extends State<ShopsView> {
+class ShopsViewState extends State<Shops> {
   final List<MapObject> mapObjects = [];
   late YandexMapController yaMapController;
   static const Point startLocation = Point(latitude: 52.2978, longitude: 104.296);

@@ -3,7 +3,7 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
 
-class Home extends StatefulWidget {
+/*class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
@@ -44,26 +44,29 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class HomeView extends StatelessWidget {
-  const HomeView({
+class Home extends StatelessWidget {
+  const Home({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(8),
-      children: <Widget>[
-        Column(
-          children: [
-            CarouselSales(),
-            Text("Каталог"),
-            CatalogView(),
-          ],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        padding: EdgeInsets.all(8),
+        children: <Widget>[
+          Column(
+            children: [
+              CarouselSales(),
+              Text("Каталог"),
+              CatalogView(),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
-class Cabinet extends StatefulWidget {
+/*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class _CabinetState extends State<Cabinet> {
       ),
       drawer: DrawerMenu(),
       body: CabinetView(),
-      bottomNavigationBar: BottomNavBarMenu(),
+      //bottomNavigationBar: BottomNavBarMenu(),
       floatingActionButton: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: SizedBox(
@@ -45,21 +45,24 @@ class _CabinetState extends State<Cabinet> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class CabinetView extends StatelessWidget {
-  const CabinetView({
+class Cabinet extends StatelessWidget {
+  const Cabinet({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [VirtualCard()],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        children: <Widget>[
+          Column(
+            children: [VirtualCard()],
+          )
+        ],
+      ),
     );
   }
 }

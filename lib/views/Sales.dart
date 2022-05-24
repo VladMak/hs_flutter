@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 
-class Sales extends StatelessWidget {
+/*class Sales extends StatelessWidget {
   const Sales({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class Sales extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: SalesView(),
-      bottomNavigationBar: BottomNavBarMenu(),
+      //bottomNavigationBar: BottomNavBarMenu(),
       floatingActionButton: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: SizedBox(
@@ -39,29 +39,31 @@ class Sales extends StatelessWidget {
     );
     ;
   }
-}
+}*/
 
-class SalesView extends StatelessWidget {
-  const SalesView({
+class Sales extends StatelessWidget {
+  const Sales({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem()
-          ],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        children: <Widget>[
+          Column(
+            children: [
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem()
+            ],
+          )
+        ],
+      ),
     );
-    ;
   }
 }
 

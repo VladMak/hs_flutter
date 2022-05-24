@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 
-class Coupons extends StatelessWidget {
+/*class Coupons extends StatelessWidget {
   const Coupons({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class Coupons extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: CouponsView(),
-      bottomNavigationBar: BottomNavBarMenu(),
+      //bottomNavigationBar: BottomNavBarMenu(),
       floatingActionButton: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: SizedBox(
@@ -38,10 +38,10 @@ class Coupons extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class CouponsView extends StatelessWidget {
-  const CouponsView({
+class Coupons extends StatelessWidget {
+  const Coupons({
     Key? key,
   }) : super(key: key);
 

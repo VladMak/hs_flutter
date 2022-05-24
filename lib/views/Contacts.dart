@@ -4,7 +4,7 @@ import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Contacts extends StatelessWidget {
+/*class Contacts extends StatelessWidget {
   const Contacts({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class Contacts extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: ContactsView(),
-      bottomNavigationBar: BottomNavBarMenu(),
+      //bottomNavigationBar: BottomNavBarMenu(),
       floatingActionButton: Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
         child: SizedBox(
@@ -40,67 +40,69 @@ class Contacts extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class ContactsView extends StatelessWidget {
-  const ContactsView({
+class Contacts extends StatelessWidget {
+  const Contacts({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Image(image: AssetImage("assets/biglogo.png"))),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    child: Text(
-                      "Адрес: г. Иркутск, ул. Безбокова 30/6",
-                    ),
-                    width: 300,
-                  ),
-                )),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    child: Text("Сюда ссыль"),
-                    width: 300,
-                  ),
-                )),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    child: Text(
-                      "Приемная e-mail: info@hlebsol.ru",
-                    ),
-                    width: 300,
-                  ),
-                )),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
-                    child: Text(
-                      "Телефон: +7-395-248-08-01",
-                    ),
-                    width: 300,
-                  ),
-                )),
+    return Container(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            Column(
+              children: [
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Image(image: AssetImage("assets/biglogo.png"))),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Text(
+                          "Адрес: г. Иркутск, ул. Безбокова 30/6",
+                        ),
+                        width: 300,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Text("Сюда ссыль"),
+                        width: 300,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Text(
+                          "Приемная e-mail: info@hlebsol.ru",
+                        ),
+                        width: 300,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Text(
+                          "Телефон: +7-395-248-08-01",
+                        ),
+                        width: 300,
+                      ),
+                    )),
+              ],
+            )
           ],
-        )
-      ],
-    );
+        ));
   }
 }
