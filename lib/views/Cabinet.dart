@@ -3,9 +3,8 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:myapp/contollers/FloatingBut.dart';
 
-class Cabinet extends StatefulWidget {
+/*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
 
   @override
@@ -26,26 +25,44 @@ class _CabinetState extends State<Cabinet> {
       ),
       drawer: DrawerMenu(),
       body: CabinetView(),
-      bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: FloatingBut(),
+      //bottomNavigationBar: BottomNavBarMenu(),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        child: SizedBox(
+          width: 80,
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: Image(
+              image: AssetImage('assets/virtcard.png'),
+            ),
+            backgroundColor: Colors.white.withOpacity(0),
+            elevation: 0,
+            hoverColor: Colors.white.withOpacity(0),
+            hoverElevation: 0,
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class CabinetView extends StatelessWidget {
-  const CabinetView({
+class Cabinet extends StatelessWidget {
+  const Cabinet({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [VirtualCard()],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        children: <Widget>[
+          Column(
+            children: [VirtualCard()],
+          )
+        ],
+      ),
     );
   }
 }

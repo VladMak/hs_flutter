@@ -41,6 +41,7 @@ dependencies:
   yandex_mapkit: ^2.0.5
   postgres: ^2.4.3
   http: ^0.13.4
+  bitmap: ^0.1.2
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
     - assets/catalog02.png
     - assets/biglogo.png
     - assets/virtcard.png
+    - assets/bsmarker.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
-import 'package:myapp/contollers/FloatingBut.dart';
 
-class Coupons extends StatelessWidget {
+/*class Coupons extends StatelessWidget {
   const Coupons({Key? key}) : super(key: key);
 
   @override
@@ -19,15 +18,30 @@ class Coupons extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: CouponsView(),
-      bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: FloatingBut(),
+      //bottomNavigationBar: BottomNavBarMenu(),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        child: SizedBox(
+          width: 80,
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: Image(
+              image: AssetImage('assets/virtcard.png'),
+            ),
+            backgroundColor: Colors.white.withOpacity(0),
+            elevation: 0,
+            hoverColor: Colors.white.withOpacity(0),
+            hoverElevation: 0,
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
+}*/
 
-class CouponsView extends StatelessWidget {
-  const CouponsView({
+class Coupons extends StatelessWidget {
+  const Coupons({
     Key? key,
   }) : super(key: key);
 
