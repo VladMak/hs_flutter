@@ -3,6 +3,8 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:myapp/main.dart';
+import 'package:myapp/views/ProfileEdit.dart';
 
 /*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -148,7 +150,10 @@ class VirtualCard extends StatelessWidget {
               alignment: Alignment.center,
               child: SizedBox(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(builder: (context) => ProfileEdit()));
+                  },
                   child: Text("Редактировать профиль"),
                   style: ButtonStyle(backgroundColor:
                       MaterialStateProperty.resolveWith<Color?>(
