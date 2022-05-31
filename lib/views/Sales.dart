@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
-import 'package:myapp/contollers/FloatingBut.dart';
 
-class Sales extends StatelessWidget {
+/*class Sales extends StatelessWidget {
   const Sales({Key? key}) : super(key: key);
 
   @override
@@ -19,35 +18,52 @@ class Sales extends StatelessWidget {
       ),
       drawer: DrawerMenu(),
       body: SalesView(),
-      bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: FloatingBut(),
+      //bottomNavigationBar: BottomNavBarMenu(),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+        child: SizedBox(
+          width: 80,
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: Image(
+              image: AssetImage('assets/virtcard.png'),
+            ),
+            backgroundColor: Colors.white.withOpacity(0),
+            elevation: 0,
+            hoverColor: Colors.white.withOpacity(0),
+            hoverElevation: 0,
+          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
     ;
   }
-}
+}*/
 
-class SalesView extends StatelessWidget {
-  const SalesView({
+class Sales extends StatelessWidget {
+  const Sales({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem()
-          ],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        children: <Widget>[
+          Column(
+            children: [
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem()
+            ],
+          )
+        ],
+      ),
     );
-    ;
   }
 }
 
