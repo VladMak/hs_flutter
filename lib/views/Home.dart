@@ -45,12 +45,12 @@ class HomeView extends StatelessWidget {
       children: <Widget>[
         Column(
           children: [
-            ElevatedButton(
+            /*ElevatedButton(
                 onPressed: () {
                   var test = Db();
                   test.testConnect();
                 },
-                child: Text("BUT")),
+                child: Text("BUT")),*/
             CarouselSales(),
             Text("Каталог"),
             CatalogView(),
