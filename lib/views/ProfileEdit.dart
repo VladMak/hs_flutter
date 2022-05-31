@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/models/CustomTextFields.dart';
 
+// Класс странички редактирования профиля
 class ProfileEdit extends StatelessWidget {
   ProfileEdit({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return WillPopScope(
         child: Scaffold(
           appBar: AppBar(
@@ -36,67 +37,7 @@ class ProfileEdit extends StatelessWidget {
   }
 }
 
-class MyTextFieldItem extends StatefulWidget {
-  MyTextFieldItem(
-      {Key? key, this.value, required this.focusColor, required this.labelText, required this.onTap})
-      : super(key: key);
-
-  String? value;
-  Color focusColor;
-  String labelText;
-  final ValueChanged<BuildContext>? onTap;
-
-  final textController = TextEditingController();
-
-  @override
-  State<MyTextFieldItem> createState() => _MyTextFieldItemState();
-}
-
-class _MyTextFieldItemState extends State<MyTextFieldItem> {
-  late FocusNode focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    focusNode = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  Widget build(BuildContext context) {
-    if (widget.textController.text == "") {
-      if (widget.value != null) widget.textController.text = widget.value!;
-    }
-    widget.textController.selection = TextSelection.fromPosition(
-        TextPosition(offset: widget.textController.text.length));
-    focusNode.addListener(() {
-      setState(() {});
-    });
-
-    return TextField(
-      focusNode: focusNode,
-      controller: widget.textController,
-      cursorColor: widget.focusColor,
-      //onTap: (){ widget.textController.text = widget.onTap!(context);},
-      onEditingComplete: () {
-        setState(() {});
-      },
-      decoration: InputDecoration(
-        focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: widget.focusColor)),
-        labelStyle: TextStyle(
-            color:
-                focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
-        labelText: widget.labelText,
-      ),
-    );
-  }
-}
-
+// Класс для построения списка параметров профиля
 class MyDataList extends StatefulWidget {
   MyDataList({Key? key}) : super(key: key);
 
@@ -104,10 +45,12 @@ class MyDataList extends StatefulWidget {
   State<MyDataList> createState() => MyDataListState();
 }
 
-class MyDataListState extends State<MyDataList>{
+final keyCalendarTextField = GlobalKey<TextFieldItemState>();
 
-  DateTime selectedDate = DateTime.now();
+class MyDataListState extends State<MyDataList> {
+  String _selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
 
+  // Метод для создания визуального блока параметров
   Widget _addContainer(Widget part) {
     return Container(
         decoration: BoxDecoration(
@@ -126,22 +69,37 @@ class MyDataListState extends State<MyDataList>{
         ));
   }
 
-  Future<DateTime?> _selectDate(BuildContext context) async {
+  // Метод для рисования календаря
+  Future<void> _selectDate(BuildContext context, String selectedDate) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        // Устанавливаем русский язык календаря
+        locale: const Locale("ru", "RU"),
+        // В качестве текущей берём дату, установленную в поле
+        initialDate: DateFormat("dd-MM-yyyy").parse(
+            keyCalendarTextField.currentState!.widget.textController.text),
+        firstDate: DateTime(1900, 1, 1),
+        lastDate: DateTime(2101),
+        // Тема календаря
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            child: child as Widget,
+            data: ThemeData.light().copyWith(
+                primaryColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+                colorScheme: ColorScheme.light(
+                    primary: const Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10))),
+          );
+        });
+    // Обработка выбора значения даты
     if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+      keyCalendarTextField.currentState!.widget.textController.text =
+          DateFormat("dd-MM-yyyy").format(picked);
     }
-    return picked;
   }
 
   @override
   Widget build(BuildContext context) {
+    // Выводим список всех данных профиля
     return Column(children: <Widget>[
       _addContainer(Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,35 +109,53 @@ class MyDataListState extends State<MyDataList>{
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
             ),
-            MyTextFieldItem(
-                value: "Иванов",
-                focusColor: Colors.red.shade900,
-                labelText: "Фамилия",
-                onTap: null,),
+            TextFieldItem(
+              value: "Иванов",
+              focusColor: Colors.red.shade900,
+              labelText: "Фамилия",
+              onTap: () {},
+            ),
             SizedBox(
               height: 10,
             ),
-            MyTextFieldItem(
-                value: "Иван",
-                focusColor: Colors.red.shade900,
-                labelText: "Имя",
-                onTap: null,),
+            TextFieldItem(
+              value: "Иван",
+              focusColor: Colors.red.shade900,
+              labelText: "Имя",
+              onTap: () {},
+            ),
             SizedBox(
               height: 10,
             ),
-            MyTextFieldItem(
-                value: "Иванович",
-                focusColor: Colors.red.shade900,
-                labelText: "Отчество", onTap: null,),
+            TextFieldItem(
+              value: "Иванович",
+              focusColor: Colors.red.shade900,
+              labelText: "Отчество",
+              onTap: () {},
+            ),
             SizedBox(
               height: 10,
             ),
-            MyTextFieldItem(focusColor: Colors.red.shade900, labelText: "Пол", onTap: null,),
+            DropDownTextField(
+              items: ["Мужской", "Женский"],
+              readOnly: true,
+              focusColor: Colors.red.shade900,
+              labelText: "Пол",
+              onTap: () {},
+            ),
             SizedBox(
               height: 10,
             ),
-            MyTextFieldItem(
-                focusColor: Colors.red.shade900, labelText: "Дата рождения", onTap: _selectDate,),
+            TextFieldItem(
+              key: keyCalendarTextField,
+              readOnly: true,
+              value: _selectedDate,
+              focusColor: Colors.red.shade900,
+              labelText: "Дата рождения",
+              onTap: () {
+                _selectDate(context, _selectedDate);
+              },
+            ),
             SizedBox(
               height: 10,
             ),
@@ -193,21 +169,35 @@ class MyDataListState extends State<MyDataList>{
           Text("Контакты",
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20)),
-          MyTextFieldItem(
-              focusColor: Colors.red.shade900, labelText: "Электронная почта", onTap: null,),
+          TextFieldItem(
+            focusColor: Colors.red.shade900,
+            labelText: "Электронная почта",
+            onTap: () {},
+          ),
           SizedBox(
             height: 10,
           ),
-          MyTextFieldItem(
-              focusColor: Colors.red.shade900, labelText: "Мобильный телефон", onTap: null,),
+          TextFieldItem(
+            focusColor: Colors.red.shade900,
+            labelText: "Мобильный телефон",
+            onTap: () {},
+          ),
           SizedBox(
             height: 10,
           ),
-          MyTextFieldItem(focusColor: Colors.red.shade900, labelText: "Город", onTap: null,),
+          TextFieldItem(
+            focusColor: Colors.red.shade900,
+            labelText: "Город",
+            onTap: () {},
+          ),
           SizedBox(
             height: 10,
           ),
-          MyTextFieldItem(focusColor: Colors.red.shade900, labelText: "Адрес", onTap: null,),
+          TextFieldItem(
+            focusColor: Colors.red.shade900,
+            labelText: "Адрес",
+            onTap: () {},
+          ),
           SizedBox(
             height: 10,
           ),

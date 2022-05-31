@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/views/Home.dart';
 
+// Контейнер, в пределах которого будут показываться основные экраны
 class Fragment extends StatefulWidget {
   Fragment({Key? key}) : super(key: key);
 
@@ -9,8 +10,10 @@ class Fragment extends StatefulWidget {
 }
 
 class FragmentState extends State<Fragment> {
+  // Поле для хранения контекста создания основных экранов
   late BuildContext _fragmentContext;
 
+  // Метод для получения контекста создания основных экранов
   BuildContext getContext() {
     return _fragmentContext;
   }
