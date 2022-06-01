@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
+import 'package:myapp/models/Api.dart';
 
 /*class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -60,6 +61,13 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Column(
             children: [
+              ElevatedButton(
+                  onPressed: () {
+                    print("CHLEN");
+                    var api = Api();
+                    api.test();
+                  },
+                  child: Text("Челендлер")),
               CarouselSales(),
               Text("Каталог"),
               CatalogView(),
