@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/CustomTextFields.dart';
@@ -30,7 +32,10 @@ class ProfileEdit extends StatelessWidget {
         ),
         onWillPop: () async {
           if (true) {
-            print("Вышли");
+            if (Platform.isIOS)
+              print("Тестим iphone");
+            else
+              print("Тестим android");
             return true;
           }
         });
