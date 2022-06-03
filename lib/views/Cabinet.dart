@@ -3,6 +3,7 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:myapp/authentication/Authentication.dart';
 
 /*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -208,6 +209,28 @@ class VirtualCard extends StatelessWidget {
                       MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
                     return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                  })),
+                ),
+                width: 300,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Route route = MaterialPageRoute(
+                        builder: (context) => Authentication());
+                    Navigator.push(context, route);
+                  },
+                  child: Text("Выход"),
+                  style: ButtonStyle(backgroundColor:
+                      MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18); //#b31918
                   })),
                 ),
                 width: 300,

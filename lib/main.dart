@@ -8,12 +8,13 @@ import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Sales.dart';
 
-enum Screen { Home, Sales, Contacts, Cabinet, Coupons, Shops }
+enum Screen { Home, Sales, Contacts, Cabinet, Coupons, Shops, Authen }
 
 const Map<Screen, String> screenTitles = {
   Screen.Home: "Хлеб Соль",
   Screen.Sales: "Акции",
   Screen.Contacts: "Контакты",
+  Screen.Authen: "Вход",
   Screen.Cabinet: "Профиль",
   Screen.Coupons: "Купоны",
   Screen.Shops: "Магазины",

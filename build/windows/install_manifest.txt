@@ -1,0 +1,14 @@
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/icudtl.dat
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/flutter_windows.dll
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/url_launcher_windows_plugin.dll
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/assets/biglogo.png
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/assets/bsmarker.png
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/assets/catalog01.png
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/assets/catalog02.png
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/assets/virtcard.png
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
+C:/Users/LG_GT/source/hs_flutter/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
