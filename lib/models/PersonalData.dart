@@ -10,7 +10,7 @@ class PersonalData {
       this.secondName = "",
       this.fatherName = "",
       this.sex = "",
-      required this.birthday,
+      this.birthday = "",
       this.email = "",
       this.mobileNum = "",
       this.city = "",
@@ -21,7 +21,7 @@ class PersonalData {
   String fatherName;
 
   String sex;
-  DateTime birthday;
+  String birthday;
 
   String email;
   String mobileNum;

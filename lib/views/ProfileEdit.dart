@@ -22,7 +22,7 @@ class ProfileEdit extends StatelessWidget {
       firstName: "Иван",
       secondName: "Иванов",
       fatherName: "Иванович",
-      birthday: DateTime(1990, 6, 1));
+      birthday: "01-06-1990");
 
   bool _noChanges() {
     if (myData.firstName !=
@@ -31,9 +31,9 @@ class ProfileEdit extends StatelessWidget {
         keySecondName.currentState!.widget.textController.text) return false;
     if (myData.fatherName !=
         keyFatherName.currentState!.widget.textController.text) return false;
-    if (SexNames[myData.sex] != keySex.currentState!.widget.textController.text)
+    if (myData.sex != keySex.currentState!.widget.textController.text)
       return false;
-    if (DateFormat("dd-MM-yyyy").format(myData.birthday as DateTime) !=
+    if (myData.birthday !=
         keyCalendarTextField.currentState!.widget.textController.text)
       return false;
     if (myData.email != keyEmail.currentState!.widget.textController.text)
@@ -45,6 +45,32 @@ class ProfileEdit extends StatelessWidget {
     if (myData.address != keyAddress.currentState!.widget.textController.text)
       return false;
     return true;
+  }
+
+  void _showDialog(context) {
+    showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Несохранённые изменения'),
+        content: const Text(
+            'Обнаружены несохранённые изменения, в случае выхода они будут утрачены. Продолжить?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: const Text('Нет'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, true);
+              Navigator.pop(context);
+            },
+            child: const Text('Да'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -80,8 +106,10 @@ class ProfileEdit extends StatelessWidget {
             else
               print("Тестим android");
             return true;
-          } else
+          } else{
+            _showDialog(context);  
             return false;
+          }         
         });
   }
 }
@@ -99,8 +127,6 @@ class MyDataList extends StatefulWidget {
 final keyCalendarTextField = GlobalKey<TextFieldItemState>();
 
 class MyDataListState extends State<MyDataList> {
-  String _selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
-
   MyDataListState({required this.myData});
 
   PersonalData myData;
@@ -124,15 +150,23 @@ class MyDataListState extends State<MyDataList> {
         ));
   }
 
+  DateTime _getInitialDate() {
+    try {
+      return DateFormat("dd-MM-yyyy")
+          .parse(keyCalendarTextField.currentState!.widget.textController.text);
+    } catch (e) {
+      return DateTime.now();
+    }
+  }
+
   // Метод для рисования календаря
-  Future<void> _selectDate(BuildContext context, String selectedDate) async {
+  Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         // Устанавливаем русский язык календаря
         locale: const Locale("ru", "RU"),
         // В качестве текущей берём дату, установленную в поле
-        initialDate: DateFormat("dd-MM-yyyy").parse(
-            keyCalendarTextField.currentState!.widget.textController.text),
+        initialDate: _getInitialDate(),
         firstDate: DateTime(1900, 1, 1),
         lastDate: DateTime(2101),
         // Тема календаря
@@ -146,7 +180,7 @@ class MyDataListState extends State<MyDataList> {
           );
         });
     // Обработка выбора значения даты
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       keyCalendarTextField.currentState!.widget.textController.text =
           DateFormat("dd-MM-yyyy").format(picked);
     }
@@ -208,12 +242,11 @@ class MyDataListState extends State<MyDataList> {
             TextFieldItem(
               key: keyCalendarTextField,
               readOnly: true,
-              value:
-                  DateFormat("dd-MM-yyyy").format(myData.birthday as DateTime),
+              value: myData.birthday,
               focusColor: Colors.red.shade900,
               labelText: "Дата рождения",
               onTap: () {
-                _selectDate(context, _selectedDate);
+                _selectDate(context);
               },
             ),
             SizedBox(
