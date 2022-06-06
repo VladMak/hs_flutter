@@ -112,10 +112,10 @@ class DropDownTextField extends TextFieldItem {
             onTap: onTap);
 
   @override
-  State<DropDownTextField> createState() => _DropDownTextFieldState();
+  State<DropDownTextField> createState() => DropDownTextFieldState();
 }
 
-class _DropDownTextFieldState extends TextFieldItemState<DropDownTextField> {
+class DropDownTextFieldState extends TextFieldItemState<DropDownTextField> {
   // Слой для выпадающего списка
   late OverlayEntry _overlayEntry;
   final LayerLink _layerLink = LayerLink();

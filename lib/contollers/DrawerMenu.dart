@@ -63,6 +63,7 @@ class DrawerMenu extends StatelessWidget {
               _queue.addLast(
                   keyFragmentBody.currentState?.getContext() as BuildContext);
               Navigator.pop(context);
+              keyNavBar.currentState!.selectItem(Screen.Home);
               updateTitle(screenTitles[Screen.Coupons]);
             },
           ),
@@ -119,6 +120,7 @@ class DrawerMenu extends StatelessWidget {
               _queue.addLast(
                   keyFragmentBody.currentState?.getContext() as BuildContext);
               Navigator.pop(context);
+              keyNavBar.currentState!.selectItem(Screen.Home);
               updateTitle(screenTitles[Screen.Shops]);
             },
           ),

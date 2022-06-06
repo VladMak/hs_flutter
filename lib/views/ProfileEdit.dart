@@ -3,10 +3,49 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/models/CustomTextFields.dart';
+import 'package:myapp/models/PersonalData.dart';
+
+final keyFirstName = GlobalKey<TextFieldItemState>();
+final keySecondName = GlobalKey<TextFieldItemState>();
+final keyFatherName = GlobalKey<TextFieldItemState>();
+final keySex = GlobalKey<DropDownTextFieldState>();
+final keyEmail = GlobalKey<TextFieldItemState>();
+final keyMobile = GlobalKey<TextFieldItemState>();
+final keyCity = GlobalKey<TextFieldItemState>();
+final keyAddress = GlobalKey<TextFieldItemState>();
 
 // Класс странички редактирования профиля
 class ProfileEdit extends StatelessWidget {
   ProfileEdit({Key? key}) : super(key: key);
+
+  PersonalData myData = PersonalData(
+      firstName: "Иван",
+      secondName: "Иванов",
+      fatherName: "Иванович",
+      birthday: DateTime(1990, 6, 1));
+
+  bool _noChanges() {
+    if (myData.firstName !=
+        keyFirstName.currentState!.widget.textController.text) return false;
+    if (myData.secondName !=
+        keySecondName.currentState!.widget.textController.text) return false;
+    if (myData.fatherName !=
+        keyFatherName.currentState!.widget.textController.text) return false;
+    if (SexNames[myData.sex] != keySex.currentState!.widget.textController.text)
+      return false;
+    if (DateFormat("dd-MM-yyyy").format(myData.birthday as DateTime) !=
+        keyCalendarTextField.currentState!.widget.textController.text)
+      return false;
+    if (myData.email != keyEmail.currentState!.widget.textController.text)
+      return false;
+    if (myData.mobileNum != keyMobile.currentState!.widget.textController.text)
+      return false;
+    if (myData.city != keyCity.currentState!.widget.textController.text)
+      return false;
+    if (myData.address != keyAddress.currentState!.widget.textController.text)
+      return false;
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,34 +65,45 @@ class ProfileEdit extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              Padding(padding: EdgeInsets.all(10), child: MyDataList()),
+              Padding(
+                  padding: EdgeInsets.all(10),
+                  child: MyDataList(
+                    myData: myData,
+                  )),
             ]),
           ),
         ),
         onWillPop: () async {
-          if (true) {
+          if (_noChanges()) {
             if (Platform.isIOS)
               print("Тестим iphone");
             else
               print("Тестим android");
             return true;
-          }
+          } else
+            return false;
         });
   }
 }
 
 // Класс для построения списка параметров профиля
 class MyDataList extends StatefulWidget {
-  MyDataList({Key? key}) : super(key: key);
+  MyDataList({Key? key, required this.myData}) : super(key: key);
+
+  PersonalData myData;
 
   @override
-  State<MyDataList> createState() => MyDataListState();
+  State<MyDataList> createState() => MyDataListState(myData: myData);
 }
 
 final keyCalendarTextField = GlobalKey<TextFieldItemState>();
 
 class MyDataListState extends State<MyDataList> {
   String _selectedDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
+
+  MyDataListState({required this.myData});
+
+  PersonalData myData;
 
   // Метод для создания визуального блока параметров
   Widget _addContainer(Widget part) {
@@ -115,7 +165,8 @@ class MyDataListState extends State<MyDataList> {
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
             ),
             TextFieldItem(
-              value: "Иванов",
+              key: keySecondName,
+              value: myData.secondName,
               focusColor: Colors.red.shade900,
               labelText: "Фамилия",
               onTap: () {},
@@ -124,7 +175,8 @@ class MyDataListState extends State<MyDataList> {
               height: 10,
             ),
             TextFieldItem(
-              value: "Иван",
+              key: keyFirstName,
+              value: myData.firstName,
               focusColor: Colors.red.shade900,
               labelText: "Имя",
               onTap: () {},
@@ -133,7 +185,8 @@ class MyDataListState extends State<MyDataList> {
               height: 10,
             ),
             TextFieldItem(
-              value: "Иванович",
+              key: keyFatherName,
+              value: myData.fatherName,
               focusColor: Colors.red.shade900,
               labelText: "Отчество",
               onTap: () {},
@@ -142,7 +195,8 @@ class MyDataListState extends State<MyDataList> {
               height: 10,
             ),
             DropDownTextField(
-              items: ["Мужской", "Женский"],
+              key: keySex,
+              items: SexNames.values.toList(),
               readOnly: true,
               focusColor: Colors.red.shade900,
               labelText: "Пол",
@@ -154,7 +208,8 @@ class MyDataListState extends State<MyDataList> {
             TextFieldItem(
               key: keyCalendarTextField,
               readOnly: true,
-              value: _selectedDate,
+              value:
+                  DateFormat("dd-MM-yyyy").format(myData.birthday as DateTime),
               focusColor: Colors.red.shade900,
               labelText: "Дата рождения",
               onTap: () {
@@ -175,6 +230,7 @@ class MyDataListState extends State<MyDataList> {
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20)),
           TextFieldItem(
+            key: keyEmail,
             focusColor: Colors.red.shade900,
             labelText: "Электронная почта",
             onTap: () {},
@@ -183,6 +239,7 @@ class MyDataListState extends State<MyDataList> {
             height: 10,
           ),
           TextFieldItem(
+            key: keyMobile,
             focusColor: Colors.red.shade900,
             labelText: "Мобильный телефон",
             onTap: () {},
@@ -191,6 +248,7 @@ class MyDataListState extends State<MyDataList> {
             height: 10,
           ),
           TextFieldItem(
+            key: keyCity,
             focusColor: Colors.red.shade900,
             labelText: "Город",
             onTap: () {},
@@ -199,6 +257,7 @@ class MyDataListState extends State<MyDataList> {
             height: 10,
           ),
           TextFieldItem(
+            key: keyAddress,
             focusColor: Colors.red.shade900,
             labelText: "Адрес",
             onTap: () {},

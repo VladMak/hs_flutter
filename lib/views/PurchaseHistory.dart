@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/views/Sales.dart';
+
+import '../main.dart';
 
 class MyPurchaseHistory extends StatelessWidget {
   late List<Purchase> myPurchaseHistory;
@@ -14,7 +17,7 @@ class MyPurchaseHistory extends StatelessWidget {
     return false;
   }
 
-  Widget _showMyPurchaseHistory() {
+  Widget _showMyPurchaseHistory(BuildContext context) {
     if (_loadMyPurchaseHistory())
       return ListView(children: <Widget>[
         Column(
@@ -22,11 +25,69 @@ class MyPurchaseHistory extends StatelessWidget {
         ),
       ]);
     else
-      return Center(
-        child: Text(
-          "Вы не совершили ни одной покупки",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      return Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 50,
+            ),
+            Image.asset(
+              "assets/my_purchasement.png",
+              height: 192,
+              width: 192,
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: Text(
+                "Вы не совершили ни одной покупки",
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    "Смотрите текущие акции и совершайте более выгодные покупки",
+                    textAlign: TextAlign.start,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(keyNavBar.currentState?.getQueue().removeLast()
+                            as BuildContext)
+                        .pushReplacement(
+                            MaterialPageRoute(builder: (context) => Sales()));
+                    keyNavBar.currentState?.getQueue().addLast(
+                        keyFragmentBody.currentState?.getContext()
+                            as BuildContext);
+                    keyNavBar.currentState?.selectItem(Screen.Sales);
+                    keyNavBar.currentState?.widget
+                        .updateTitle(screenTitles[Screen.Sales]);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Перейти к акциям"),
+                  style: ButtonStyle(backgroundColor:
+                      MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                  })),
+                )
+              ],
+            ),
+          ],
         ),
       );
   }
@@ -43,7 +104,7 @@ class MyPurchaseHistory extends StatelessWidget {
             ),
             backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
           ),
-          body: _showMyPurchaseHistory(),
+          body: _showMyPurchaseHistory(context),
         ),
         onWillPop: () async {
           return true;
@@ -51,12 +112,14 @@ class MyPurchaseHistory extends StatelessWidget {
   }
 }
 
-class Purchase extends StatelessWidget{
-  Purchase({Key? key}):super(key: key);
+class Purchase extends StatelessWidget {
+  Purchase({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     // TODO: реализовать отображение покупки
-    return Container(child: null,);
+    return Container(
+      child: null,
+    );
   }
 }

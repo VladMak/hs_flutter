@@ -24,6 +24,10 @@ class BottomNavBarMenu extends StatefulWidget {
 class BottomNavBarMenuState extends State<BottomNavBarMenu> {
   Screen _currentScreenId = Screen.Home;
 
+  Queue<BuildContext> getQueue(){
+    return widget._queue;
+  }
+
   void selectItem(Screen id) {
     setState(() {
       _currentScreenId = id;

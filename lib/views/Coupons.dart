@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 /*class Coupons extends StatelessWidget {
   const Coupons({Key? key}) : super(key: key);
 
@@ -45,18 +47,21 @@ class Coupons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Column(
-          children: [
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem(),
-            CouponItem()
-          ],
-        )
-      ],
+    return Container(
+      color: Colors.white,
+      child: ListView(
+        children: <Widget>[
+          Column(
+            children: [
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem(),
+              CouponItem()
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -75,7 +80,7 @@ class MyCoupons extends StatelessWidget {
     return false;
   }
 
-  Widget _showMyCoupons() {
+  Widget _showMyCoupons(BuildContext context) {
     if (_loadMyCoupons())
       return ListView(children: <Widget>[
         Column(
@@ -83,11 +88,69 @@ class MyCoupons extends StatelessWidget {
         ),
       ]);
     else
-      return Center(
-        child: Text(
-          "У вас пока что нет персональных купонов:(",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      return Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 50,
+            ),
+            Image.asset(
+              "assets/my_coupons.png",
+              height: 128,
+              width: 128,
+            ),
+            SizedBox(
+              height: 80,
+            ),
+            Center(
+              child: Text(
+                "У вас пока что нет персональных купонов:(",
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    "Смотрите все доступные купоны и выбирайте понравившиеся для совершения более выгодных покупок",
+                    textAlign: TextAlign.start,
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(keyNavBar.currentState?.getQueue().removeLast()
+                            as BuildContext)
+                        .pushReplacement(
+                            MaterialPageRoute(builder: (context) => Coupons()));
+                    keyNavBar.currentState?.getQueue().addLast(
+                        keyFragmentBody.currentState?.getContext()
+                            as BuildContext);
+                    keyNavBar.currentState?.selectItem(Screen.Home);
+                    keyNavBar.currentState?.widget
+                        .updateTitle(screenTitles[Screen.Coupons]);
+                    Navigator.pop(context);
+                  },
+                  child: Text("Перейти к купонам"),
+                  style: ButtonStyle(backgroundColor:
+                      MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                  })),
+                )
+              ],
+            ),
+          ],
         ),
       );
   }
@@ -104,7 +167,7 @@ class MyCoupons extends StatelessWidget {
             ),
             backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
           ),
-          body: _showMyCoupons(),
+          body: _showMyCoupons(context),
         ),
         onWillPop: () async {
           return true;

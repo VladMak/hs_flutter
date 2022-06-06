@@ -3,8 +3,10 @@ import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:myapp/main.dart';
 import 'package:myapp/views/Coupons.dart';
+import 'package:myapp/views/PersonalDataProtection.dart';
 import 'package:myapp/views/ProfileEdit.dart';
 import 'package:myapp/views/PurchaseHistory.dart';
+import 'package:myapp/views/UserAgreement.dart';
 
 /*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -73,10 +75,6 @@ class VirtualCard extends StatelessWidget {
   const VirtualCard({
     Key? key,
   }) : super(key: key);
-
-  Future<Widget> buildPageAsync() async {
-    return Future.microtask(() => ProfileEdit());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,10 +157,9 @@ class VirtualCard extends StatelessWidget {
               child: SizedBox(
                 child: ElevatedButton(
                   onPressed: () async {
-                    var page = await buildPageAsync();
-                    var route = MaterialPageRoute(builder: (context) => page);
                     Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext, route);
+                        keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(builder: (context) => ProfileEdit()));
                   },
                   child: Text("Редактировать профиль"),
                   style: ButtonStyle(backgroundColor:
@@ -181,7 +178,12 @@ class VirtualCard extends StatelessWidget {
               alignment: Alignment.center,
               child: SizedBox(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(
+                            builder: (context) => PersonalDataProtection()));
+                  },
                   child: Text("Обработка перс. данных"),
                   style: ButtonStyle(backgroundColor:
                       MaterialStateProperty.resolveWith<Color?>(
@@ -222,7 +224,12 @@ class VirtualCard extends StatelessWidget {
               alignment: Alignment.center,
               child: SizedBox(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(
+                            builder: (context) => UserAgreement()));
+                  },
                   child: Text("Пользовательское соглашение"),
                   style: ButtonStyle(backgroundColor:
                       MaterialStateProperty.resolveWith<Color?>(
