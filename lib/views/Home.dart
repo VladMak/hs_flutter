@@ -65,7 +65,7 @@ class Home extends StatelessWidget {
                   onPressed: () {
                     print("CHLEN");
                     var api = Api();
-                    api.test();
+                    api.registration();
                   },
                   child: Text("Челендлер")),
               CarouselSales(),
