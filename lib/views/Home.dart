@@ -3,6 +3,9 @@ import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
 import 'package:myapp/models/Api.dart';
+import 'package:myapp/views/LoginSignupPage.dart';
+
+import '../main.dart';
 
 /*class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -63,6 +66,9 @@ class Home extends StatelessWidget {
             children: [
               ElevatedButton(
                   onPressed: () {
+                    Navigator.push(
+                        keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(builder: (context) => LoginSignupPage()));
                     print("CHLEN");
                     var api = Api();
                     api.registration();
