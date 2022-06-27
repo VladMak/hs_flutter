@@ -25,14 +25,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
+      /*appBar: new AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: new Text(
           "Вход в Хлеб-Соль",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-      ),
+      ),*/
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -71,7 +71,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-  Widget _nameWidget(){
+  Widget _nameWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
       child: TextFormField(
@@ -84,9 +84,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               Icons.person_pin_rounded,
               color: Colors.grey,
             )),
-        validator: (value) => value!.isEmpty
-            ? 'Имя пользователя не должно быть пустым'
-            : null,
+        validator: (value) =>
+            value!.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
         onSaved: (value) => _name = value!.trim(),
       ),
     );

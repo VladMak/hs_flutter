@@ -5,6 +5,7 @@ import 'package:myapp/main.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Cabinet.dart';
+import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
 
 class BottomNavBarMenu extends StatefulWidget {
@@ -24,7 +25,7 @@ class BottomNavBarMenu extends StatefulWidget {
 class BottomNavBarMenuState extends State<BottomNavBarMenu> {
   Screen _currentScreenId = Screen.Home;
 
-  Queue<BuildContext> getQueue(){
+  Queue<BuildContext> getQueue() {
     return widget._queue;
   }
 
@@ -78,17 +79,37 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
           widget.updateTitle(screenTitles[Screen.Contacts]);
           break;
         case Screen.Cabinet:
+          var login = false;
           if (widget._queue.isNotEmpty) {
-            Navigator.of(widget._queue.removeLast()).pushReplacement(
-                MaterialPageRoute(builder: (context) => Cabinet()));
+            if (login) {
+              Navigator.of(widget._queue.removeLast()).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Cabinet()));
+            } else {
+              Navigator.of(widget._queue.removeLast()).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginSignupPage()));
+            }
           } else {
-            Navigator.of(
-                    keyFragmentBody.currentState?.getContext() as BuildContext)
-                .push(MaterialPageRoute(builder: (context) => Cabinet()));
+            if (login) {
+              Navigator.of(keyFragmentBody.currentState?.getContext()
+                      as BuildContext)
+                  .push(MaterialPageRoute(builder: (context) => Cabinet()));
+            } else {
+              Navigator.of(keyFragmentBody.currentState?.getContext()
+                      as BuildContext)
+                  .push(MaterialPageRoute(
+                      builder: (context) => LoginSignupPage()));
+            }
           }
-          widget._queue.addLast(
-              keyFragmentBody.currentState?.getContext() as BuildContext);
-          widget.updateTitle(screenTitles[Screen.Cabinet]);
+          if (login) {
+            widget._queue.addLast(
+                keyFragmentBody.currentState?.getContext() as BuildContext);
+            widget.updateTitle(screenTitles[Screen.Cabinet]);
+          } else {
+            widget._queue.addLast(
+                keyFragmentBody.currentState?.getContext() as BuildContext);
+            widget.updateTitle(screenTitles[Screen.Signup]);
+          }
+
           break;
         default:
       }

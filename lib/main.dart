@@ -10,7 +10,7 @@ import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Sales.dart';
 
 // Основные экраны
-enum Screen { Home, Sales, Contacts, Cabinet, Coupons, Shops }
+enum Screen { Home, Sales, Contacts, Cabinet, Coupons, Shops, Signup }
 
 // Имена экранов
 const Map<Screen, String> screenTitles = {
@@ -20,14 +20,13 @@ const Map<Screen, String> screenTitles = {
   Screen.Cabinet: "Профиль",
   Screen.Coupons: "Купоны",
   Screen.Shops: "Магазины",
+  Screen.Signup: "Вход",
 };
 
 void main() {
   runApp(MaterialApp(
     // Устанавливаем локаль
-    localizationsDelegates: [
-      GlobalMaterialLocalizations.delegate
-    ],
+    localizationsDelegates: [GlobalMaterialLocalizations.delegate],
     supportedLocales: [
       const Locale('ru'),
     ],
