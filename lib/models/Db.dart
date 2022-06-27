@@ -1,21 +1,52 @@
-import 'package:postgres/postgres.dart';
-import 'package:http/http.dart';
+import 'dart:async';
+//import 'dart:html';
+
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'package:uuid/uuid.dart';
+
+class DataToken {
+  final String uid;
+
+  const DataToken({required this.uid});
+
+  Map<String, dynamic> toMap() {
+    return {'uid': uid};
+  }
+
+  @override
+  String toString() {
+    return "DataToken{uid: $uid}";
+  }
+}
 
 class Db {
-  Future<void> testConnect() async {
-    var connection = PostgreSQLConnection("192.168.1.102", 5432, "postgres",
-        username: "postgres", password: "");
-    await connection.open();
+  static late final Future<Database> database;
 
-    List<List<dynamic>> results = await connection.query(
-        "select oid, datname from pg_database limit @aValue;",
-        substitutionValues: {"aValue": 3});
+  void connect() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    database = openDatabase(join(await getDatabasesPath(), 'tokens.db'),
+        onCreate: (db, version) {
+      return db.execute(
+        "create table token (uid text primary text);",
+      );
+    });
+  }
 
-    for (final row in results) {
-      var a = row[0];
-      var b = row[1];
-      print(a);
-      print(b);
-    }
+  Future<void> insertToken(DataToken token) async {
+    final db = await database;
+    await db.insert("token", token.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<DataToken>> getToken() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("token");
+
+    return List.generate(maps.length, (index) {
+      return DataToken(uid: maps[index]["uid"]);
+    });
   }
 }
