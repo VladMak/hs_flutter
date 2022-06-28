@@ -8,7 +8,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
 class Api {
-  Future<void> registration(
+  Future<bool> registration(
       {String name = "Член",
       String email = "xyu@123",
       String pswd = "sdf"}) async {
@@ -33,6 +33,10 @@ class Api {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
+    if (response.body == "") {
+      return false;
+    }
+
     //db.insertToken(DataToken(uid: response.body));
     var token = DataToken(uid: response.body);
     final db = await database;
@@ -47,6 +51,7 @@ class Api {
     print(List.generate(maps.length, (index) {
       return DataToken(uid: maps[index]["uid"]);
     }));
+    return true;
     //print(db.getToken());
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
   }

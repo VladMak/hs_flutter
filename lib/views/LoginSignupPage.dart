@@ -1,8 +1,18 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import '../models/Api.dart';
+import 'Cabinet.dart';
 
 class LoginSignupPage extends StatefulWidget {
+
+  LoginSignupPage({Key? key, required Queue<BuildContext> this.queue, required this.updateTitle}): super(key: key);
+
+  Queue<BuildContext> queue;
+  final ValueChanged<String?> updateTitle;
+
   @override
   State<StatefulWidget> createState() => new _LoginSignupPageState();
 }
@@ -217,12 +227,60 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               await api.login(name: _name, email: _email, pswd: _password);
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
-          } else {
+            Navigator.of(widget.queue.removeLast()).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Cabinet()));
+            widget.queue.addLast(
+                keyFragmentBody.currentState?.getContext() as BuildContext);
+            widget.updateTitle(screenTitles[Screen.Cabinet]);
+          }
+          else {
             // СЮДА не успешный ввод пароля
+            showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Ошибка'),
+              content: Text("Неверное имя пользователя, пароль или адрес электронной почты. Повторите попытку."),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Закрыть');
+                  }, 
+                  child: const Text('Закрыть'),
+                ),
+              ],
+            ),
+          );
           }
         } else {
           Api api = Api();
-          api.registration(name: _name, email: _email, pswd: _password);
+          var logged =
+              await api.registration(name: _name, email: _email, pswd: _password);
+          if (logged) {
+            // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
+            Navigator.of(widget.queue.removeLast()).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Cabinet()));
+            widget.queue.addLast(
+                keyFragmentBody.currentState?.getContext() as BuildContext);
+            widget.updateTitle(screenTitles[Screen.Cabinet]);
+          }
+          else {
+            // СЮДА не успешный ввод пароля
+            showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Ошибка'),
+              content: Text("Не удалось зарегистрировать пользователя. Повторите попытку."),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Закрыть');
+                  }, 
+                  child: const Text('Закрыть'),
+                ),
+              ],
+            ),
+          );
+          }
         }
         setState(() {
           _isLoading = false;

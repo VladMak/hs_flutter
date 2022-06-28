@@ -111,7 +111,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
                   MaterialPageRoute(builder: (context) => Cabinet()));
             } else {
               Navigator.of(widget._queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginSignupPage()));
+                  MaterialPageRoute(builder: (context) => LoginSignupPage(queue: widget._queue, updateTitle: widget.updateTitle)));
             }
           } else {
             if (login) {
@@ -122,7 +122,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
               Navigator.of(keyFragmentBody.currentState?.getContext()
                       as BuildContext)
                   .push(MaterialPageRoute(
-                      builder: (context) => LoginSignupPage()));
+                      builder: (context) => LoginSignupPage(queue: widget._queue, updateTitle: widget.updateTitle)));
             }
           }
           if (login) {

@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Column(
             children: [
-              ElevatedButton(
+              /*ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                         keyFragmentBody.currentContext as BuildContext,
@@ -73,7 +73,7 @@ class Home extends StatelessWidget {
                     var api = Api();
                     api.registration();
                   },
-                  child: Text("Челендлер")),
+                  child: Text("Челендлер")),*/
               CarouselSales(),
               Text("Каталог"),
               CatalogView(),
