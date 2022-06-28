@@ -7,6 +7,7 @@ import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
+import 'package:myapp/models/Api.dart';
 
 class BottomNavBarMenu extends StatefulWidget {
   BottomNavBarMenu(
@@ -36,7 +37,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
   }
 
   void _changeScreenId(Screen id) {
-    setState(() {
+    setState(() async {
       selectItem(id);
 
       switch (id) {
@@ -79,7 +80,10 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
           widget.updateTitle(screenTitles[Screen.Contacts]);
           break;
         case Screen.Cabinet:
-          var login = false;
+          var api = Api();
+          var localToken = "";
+
+          var login = await api.checkToken(localToken);
           if (widget._queue.isNotEmpty) {
             if (login) {
               Navigator.of(widget._queue.removeLast()).pushReplacement(
