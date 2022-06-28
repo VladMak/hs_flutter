@@ -213,7 +213,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       try {
         if (_formMode == FormMode.LOGIN) {
           Api api = Api();
-          api.login(name: _name, email: _email, pswd: _password);
+          var logged =
+              await api.login(name: _name, email: _email, pswd: _password);
+          if (logged) {
+            // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
+          } else {
+            // СЮДА не успешный ввод пароля
+          }
         } else {
           Api api = Api();
           api.registration(name: _name, email: _email, pswd: _password);

@@ -51,7 +51,7 @@ class Api {
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
   }
 
-  Future<void> login(
+  Future<bool> login(
       {String name = "Член",
       String email = "xyu@123",
       String pswd = "sdf"}) async {
@@ -62,6 +62,10 @@ class Api {
             '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "aecd49c9-70c3-4aef-8c68-ce5bc54005ad","name": "$name","card": "123124","email": "$email", "password": "$pswd", "enter": "login"}');
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
+
+    if (response.body == "") {
+      return false;
+    }
 
     WidgetsFlutterBinding.ensureInitialized();
     final database = openDatabase(join(await getDatabasesPath(), 'tokens.db'),
@@ -74,6 +78,7 @@ class Api {
     final db = await database;
     await db.insert("token", token.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+    return true;
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
   }
 
