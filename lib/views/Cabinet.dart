@@ -3,10 +3,14 @@ import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:myapp/main.dart';
 import 'package:myapp/views/Coupons.dart';
+import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/PersonalDataProtection.dart';
 import 'package:myapp/views/ProfileEdit.dart';
 import 'package:myapp/views/PurchaseHistory.dart';
 import 'package:myapp/views/UserAgreement.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:async';
 
 /*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -231,6 +235,38 @@ class VirtualCard extends StatelessWidget {
                             builder: (context) => UserAgreement()));
                   },
                   child: Text("Пользовательское соглашение"),
+                  style: ButtonStyle(backgroundColor:
+                      MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                  })),
+                ),
+                width: 300,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    WidgetsFlutterBinding.ensureInitialized();
+                    final database = openDatabase(
+                        join(await getDatabasesPath(), 'tokens.db'),
+                        version: 1, onCreate: (db, version) {
+                      return db.execute(
+                        "create table token (uid text primary key);",
+                      );
+                    });
+                    final db = await database;
+                    db.execute("delete from token;");
+                    Navigator.push(
+                        keyFragmentBody.currentContext as BuildContext,
+                        MaterialPageRoute(builder: (context) => Home()));
+                  },
+                  child: Text("Выйти"),
                   style: ButtonStyle(backgroundColor:
                       MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {

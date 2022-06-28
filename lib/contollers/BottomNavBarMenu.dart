@@ -8,6 +8,8 @@ import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
 import 'package:myapp/models/Api.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class BottomNavBarMenu extends StatefulWidget {
   BottomNavBarMenu(
@@ -81,7 +83,26 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
           break;
         case Screen.Cabinet:
           var api = Api();
-          var localToken = "";
+          WidgetsFlutterBinding.ensureInitialized();
+          final database = openDatabase(
+              join(await getDatabasesPath(), 'tokens.db'),
+              version: 1, onCreate: (db, version) {
+            return db.execute(
+              "create table token (uid text primary key);",
+            );
+          });
+          final db = await database;
+          final List<Map<String, dynamic>> maps = await db.query("token");
+
+          var token = List.generate(maps.length, (index) {
+            return DataToken(uid: maps[index]["uid"]);
+          });
+          var localToken;
+          if (token.length > 0) {
+            localToken = token[0].uid;
+          } else {
+            localToken = "";
+          }
 
           var login = await api.checkToken(localToken);
           if (widget._queue.isNotEmpty) {
