@@ -15,7 +15,7 @@ class CarouselSales extends StatelessWidget {
           autoPlayInterval: Duration(seconds: 5),
           autoPlayAnimationDuration: Duration(milliseconds: 800),
           autoPlayCurve: Curves.fastOutSlowIn),
-      items: [1, 2, 3, 4, 5].map((i) {
+      items: [2, 5, 11].map((i) {
         return Builder(
           builder: (BuildContext context) {
             return Padding(
@@ -26,7 +26,7 @@ class CarouselSales extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: Colors.amber.withOpacity(0)),
                     child: Image(
-                      image: AssetImage('assets/catalog02.png'),
+                      image: AssetImage('assets/01/_-' + i.toString() + '.png'),
                     )));
           },
         );
@@ -55,7 +55,7 @@ class _CatalogViewState extends State<CatalogView> {
         options: CarouselOptions(
           height: 400.0,
         ),
-        items: [1, 2, 3, 4, 5].map((i) {
+        items: [1, 2, 3, 4, 5, 6, 7, 9].map((i) {
           return Builder(
             builder: (BuildContext context) {
               return Padding(
@@ -66,7 +66,8 @@ class _CatalogViewState extends State<CatalogView> {
                       decoration:
                           BoxDecoration(color: Colors.amber.withOpacity(0)),
                       child: Image(
-                        image: AssetImage('assets/catalog01.png'),
+                        image:
+                            AssetImage('assets/02/__' + i.toString() + '.png'),
                       )));
             },
           );

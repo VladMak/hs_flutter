@@ -95,7 +95,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
           final List<Map<String, dynamic>> maps = await db.query("token");
 
           var token = List.generate(maps.length, (index) {
-            return DataToken(uid: maps[index]["uid"]);
+            return DataToken(uid: maps[index]["uid"], ukmid: "");
           });
           var localToken;
           if (token.length > 0) {
@@ -111,7 +111,10 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
                   MaterialPageRoute(builder: (context) => Cabinet()));
             } else {
               Navigator.of(widget._queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginSignupPage(queue: widget._queue, updateTitle: widget.updateTitle)));
+                  MaterialPageRoute(
+                      builder: (context) => LoginSignupPage(
+                          queue: widget._queue,
+                          updateTitle: widget.updateTitle)));
             }
           } else {
             if (login) {
@@ -122,7 +125,9 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
               Navigator.of(keyFragmentBody.currentState?.getContext()
                       as BuildContext)
                   .push(MaterialPageRoute(
-                      builder: (context) => LoginSignupPage(queue: widget._queue, updateTitle: widget.updateTitle)));
+                      builder: (context) => LoginSignupPage(
+                          queue: widget._queue,
+                          updateTitle: widget.updateTitle)));
             }
           }
           if (login) {
