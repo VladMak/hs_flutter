@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 // Обычное текстовое поле
 class TextFieldItem extends StatefulWidget {
-  String? value;                          // Значение, отображаемое в поле
-  bool? readOnly;                         // Только чтение
-  Color focusColor;                       // Цвет, которым будет выделяться лэйбл и подчёркивание поля
-  String labelText;                       // Текст лэйбла
-  final void Function()? onTap;           // Событие при нажатии
-  
+  String? value; // Значение, отображаемое в поле
+  bool? readOnly; // Только чтение
+  Color focusColor; // Цвет, которым будет выделяться лэйбл и подчёркивание поля
+  String labelText; // Текст лэйбла
+  final void Function()? onTap; // Событие при нажатии
+
   TextFieldItem(
       {Key? key,
       this.value,
@@ -32,7 +32,7 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    
+
     // Логика заполнения при каждом обновлении стэйта
     if (widget.textController.text == "") {
       if (widget.value != null) widget.textController.text = widget.value!;
@@ -53,7 +53,7 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
   }
 
   // Непосредственно текстовое поле
-  TextFormField _rootTextField(){
+  TextFormField _rootTextField() {
     return TextFormField(
       focusNode: _focusNode,
       controller: widget.textController,
@@ -181,6 +181,60 @@ class DropDownTextFieldState extends TextFieldItemState<DropDownTextField> {
     return CompositedTransformTarget(
       link: _layerLink,
       child: _rootTextField(),
+    );
+  }
+}
+
+class AuthFormTextField extends StatefulWidget {
+  Color focusColor;
+  String labelText;
+  IconData icon;
+  final String? Function(String)? validator;
+  final void Function(String)? saver;
+
+  AuthFormTextField(
+      {Key? key,
+      required this.focusColor,
+      required this.labelText,
+      required this.icon,
+      required this.validator,
+      required this.saver})
+      : super(key: key);
+
+  @override
+  State<AuthFormTextField> createState() => _AuthFormTextFieldState();
+}
+
+class _AuthFormTextFieldState extends State<AuthFormTextField> {
+  FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      maxLines: 1,
+      keyboardType: TextInputType.name,
+      autofocus: false,
+      focusNode: _focusNode,
+      cursorColor: widget.focusColor,
+      decoration: new InputDecoration(
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: widget.focusColor)),
+        labelText: widget.labelText,
+        labelStyle: TextStyle(
+            color: _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
+        icon: Icon(widget.icon, color: _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
+      ),
+      validator: (value){return widget.validator!(value!);},
+      onSaved: (value){widget.saver!(value!);},
     );
   }
 }
