@@ -262,9 +262,15 @@ class VirtualCard extends StatelessWidget {
                     });
                     final db = await database;
                     db.execute("delete from token;");
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(builder: (context) => Home()));
+                    Navigator.pushAndRemoveUntil(
+                      keyFragmentBody.currentState?.getContext() as BuildContext,
+                      MaterialPageRoute(
+                        builder: (context) => Home(),
+                      ),
+                      (route) => true);
+                    keyNavBar.currentState?.getQueue().clear();
+                    keyNavBar.currentState?.widget.updateTitle(screenTitles[Screen.Home]);
+                    keyNavBar.currentState!.selectItem(Screen.Home);
                   },
                   child: Text("Выйти"),
                   style: ButtonStyle(backgroundColor:

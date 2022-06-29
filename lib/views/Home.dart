@@ -64,16 +64,6 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Column(
             children: [
-              /*ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(builder: (context) => LoginSignupPage()));
-                    print("CHLEN");
-                    var api = Api();
-                    api.registration();
-                  },
-                  child: Text("Челендлер")),*/
               CarouselSales(),
               Text("Каталог"),
               CatalogView(),
