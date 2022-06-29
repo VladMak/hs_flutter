@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 import '../models/Api.dart';
+import '../models/CustomTextFields.dart';
 import 'Cabinet.dart';
 
 class LoginSignupPage extends StatefulWidget {
-
-  LoginSignupPage({Key? key, required Queue<BuildContext> this.queue, required this.updateTitle}): super(key: key);
+  LoginSignupPage(
+      {Key? key,
+      required Queue<BuildContext> this.queue,
+      required this.updateTitle})
+      : super(key: key);
 
   Queue<BuildContext> queue;
   final ValueChanged<String?> updateTitle;
@@ -31,6 +35,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   FormMode _formMode = FormMode.LOGIN;
   bool _isIos = false;
   bool _isLoading = false;
+  Color focusColor = Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+  late FocusNode _focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +66,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget progressWidget() {
     if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(
+          child: CircularProgressIndicator(
+              color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)));
     }
     return Container(
       height: 0.0,
@@ -84,19 +92,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _nameWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-      child: TextFormField(
-        maxLines: 1,
-        keyboardType: TextInputType.name,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Имя пользователя',
-            icon: new Icon(
-              Icons.person_pin_rounded,
-              color: Colors.grey,
-            )),
-        validator: (value) =>
-            value!.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
-        onSaved: (value) => _name = value!.trim(),
+      child: 
+      AuthFormTextField(
+        focusColor: focusColor,
+        labelText: 'Имя пользователя',
+        icon: Icons.person_pin_rounded,
+        saver: (value) => _name = value.trim(),
+        validator: (value) => value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
       ),
     );
   }
@@ -104,20 +106,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _emailWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: TextFormField(
-        maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Адрес электронной почты',
-            icon: new Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
-        validator: (value) => value!.isEmpty
-            ? 'Адрес электронной почты не должен быть пустым'
-            : null,
-        onSaved: (value) => _email = value!.trim(),
+      child: 
+      AuthFormTextField(
+        focusColor: focusColor,
+        labelText: 'Адрес электронной почты',
+        icon: Icons.mail,
+        saver: (value) => _email = value.trim(),
+        validator: (value) => value.isEmpty ? 'Адрес электронной почты не должен быть пустым' : null,
       ),
     );
   }
@@ -125,19 +120,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _passwordWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: new TextFormField(
-        maxLines: 1,
-        obscureText: true,
-        autofocus: false,
-        decoration: new InputDecoration(
-            hintText: 'Пароль',
-            icon: new Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
-        validator: (value) =>
-            value!.isEmpty ? 'Пароль не должен быть пустым' : null,
-        onSaved: (value) => _password = value!.trim(),
+      child: 
+      AuthFormTextField(
+        focusColor: focusColor,
+        labelText: 'Пароль',
+        icon: Icons.lock,
+        saver: (value) => _password = value.trim(),
+        validator: (value) => value.isEmpty ? 'Пароль не должен быть пустым' : null,
       ),
     );
   }
@@ -149,7 +138,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           elevation: 5.0,
           minWidth: 200.0,
           height: 42.0,
-          color: Colors.blue,
+          color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18),
           child: _formMode == FormMode.LOGIN
               ? new Text('Войти',
                   style: new TextStyle(fontSize: 20.0, color: Colors.white))
@@ -163,10 +152,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     return new FlatButton(
       child: _formMode == FormMode.LOGIN
           ? new Text('Создать аккаунт',
-              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
+              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500))
           : new Text('Уже зарегестрированы? Войти',
               style:
-                  new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+                  new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
       onPressed: _formMode == FormMode.LOGIN ? showSignupForm : showLoginForm,
     );
   }
@@ -228,58 +217,58 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
             Navigator.of(widget.queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Cabinet()));
+                MaterialPageRoute(builder: (context) => Cabinet()));
             widget.queue.addLast(
                 keyFragmentBody.currentState?.getContext() as BuildContext);
             widget.updateTitle(screenTitles[Screen.Cabinet]);
-          }
-          else {
+          } else {
             // СЮДА не успешный ввод пароля
             showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Ошибка'),
-              content: Text("Неверное имя пользователя, пароль или адрес электронной почты. Повторите попытку."),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, 'Закрыть');
-                  }, 
-                  child: const Text('Закрыть'),
-                ),
-              ],
-            ),
-          );
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Ошибка'),
+                content: Text(
+                    "Неверное имя пользователя, пароль или адрес электронной почты. Повторите попытку."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'Закрыть');
+                    },
+                    child: const Text('Закрыть'),
+                  ),
+                ],
+              ),
+            );
           }
         } else {
           Api api = Api();
-          var logged =
-              await api.registration(name: _name, email: _email, pswd: _password);
+          var logged = await api.registration(
+              name: _name, email: _email, pswd: _password);
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
             Navigator.of(widget.queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Cabinet()));
+                MaterialPageRoute(builder: (context) => Cabinet()));
             widget.queue.addLast(
                 keyFragmentBody.currentState?.getContext() as BuildContext);
             widget.updateTitle(screenTitles[Screen.Cabinet]);
-          }
-          else {
+          } else {
             // СЮДА не успешный ввод пароля
             showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text('Ошибка'),
-              content: Text("Не удалось зарегистрировать пользователя. Повторите попытку."),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, 'Закрыть');
-                  }, 
-                  child: const Text('Закрыть'),
-                ),
-              ],
-            ),
-          );
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Ошибка'),
+                content: Text(
+                    "Не удалось зарегистрировать пользователя. Повторите попытку."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, 'Закрыть');
+                    },
+                    child: const Text('Закрыть'),
+                  ),
+                ],
+              ),
+            );
           }
         }
         setState(() {
