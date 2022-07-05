@@ -9,13 +9,17 @@ import 'Cabinet.dart';
 
 String? validateEmail(value) {
   var regemail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (value.isEmpty) {
+    return 'Адрес электронной почты не должен быть пустым';
+  }
+
   if (regemail.hasMatch(value)) {
     print("Корректная почта");
   } else {
-    print("Некорректная почта");
+    return ("Некорректная почта");
   }
 
-  return value.isEmpty ? 'Адрес электронной почты не должен быть пустым' : null;
+  return null;
 }
 
 class LoginSignupPage extends StatefulWidget {
