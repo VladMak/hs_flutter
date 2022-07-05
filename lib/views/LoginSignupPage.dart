@@ -256,6 +256,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           }
         } else {
           Api api = Api();
+
           var logged = await api.registration(
               name: _name, email: _email, pswd: _password);
           if (logged) {
