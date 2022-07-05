@@ -7,6 +7,17 @@ import '../models/Api.dart';
 import '../models/CustomTextFields.dart';
 import 'Cabinet.dart';
 
+String? validateEmail(value) {
+  var regemail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (regemail.hasMatch(value)) {
+    print("Корректная почта");
+  } else {
+    print("Некорректная почта");
+  }
+
+  return value.isEmpty ? 'Адрес электронной почты не должен быть пустым' : null;
+}
+
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage(
       {Key? key,
@@ -92,13 +103,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _nameWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Имя пользователя',
         icon: Icons.person_pin_rounded,
         saver: (value) => _name = value.trim(),
-        validator: (value) => value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
       ),
     );
   }
@@ -106,13 +117,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _emailWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Адрес электронной почты',
         icon: Icons.mail,
         saver: (value) => _email = value.trim(),
-        validator: (value) => value.isEmpty ? 'Адрес электронной почты не должен быть пустым' : null,
+        validator: (value) => validateEmail(value),
       ),
     );
   }
@@ -120,13 +130,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _passwordWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Пароль',
         icon: Icons.lock,
         saver: (value) => _password = value.trim(),
-        validator: (value) => value.isEmpty ? 'Пароль не должен быть пустым' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Пароль не должен быть пустым' : null,
       ),
     );
   }
