@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/models/Mailer.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
 import 'package:myapp/models/Api.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
@@ -64,6 +65,12 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Column(
             children: [
+              ElevatedButton(
+                  onPressed: () {
+                    var mailer = Mailer();
+                    mailer.sendMy();
+                  },
+                  child: Text("SDFDS")),
               CarouselSales(),
               Text("Каталог"),
               CatalogView(),
