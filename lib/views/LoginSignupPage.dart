@@ -259,7 +259,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
           var logged = await api.registration(
               name: _name, email: _email, pswd: _password);
-          if (logged) {
+          print("LOGGED {$logged}");
+          if (logged != "false") {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
             Navigator.of(widget.queue.removeLast()).pushReplacement(
                 MaterialPageRoute(builder: (context) => Cabinet()));

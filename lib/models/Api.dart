@@ -9,7 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 
 class Api {
-  Future<bool> registration(
+  Future<String> registration(
       {String name = "Член",
       String email = "xyu@123",
       String pswd = "sdf"}) async {
@@ -30,15 +30,15 @@ class Api {
     // делаем запрос к удаленному хосту, к бд там.
     var response = await http.post(url,
         body:
-            '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "$uuid_res","name": "$name","card": "123124","email": "$email", "password": "$pswd", "enter": "reg"}');
+            '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "$uuid_res","name": "$name","card": "12312457","email": "$email", "password": "$pswd", "enter": "reg"}');
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    final test = jsonDecode(response.body);
-    print(test);
+    //final test = jsonDecode(response.body);
+    //print(test);
 
     if (response.body == "") {
-      return false;
+      return "false";
     }
 
     //db.insertToken(DataToken(uid: response.body));
@@ -57,7 +57,7 @@ class Api {
     print(List.generate(maps.length, (index) {
       return DataToken(uid: maps[index]["uid"], ukmid: "");
     }));
-    return true;
+    return response.body;
     //print(db.getToken());
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
   }
