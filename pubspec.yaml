@@ -47,6 +47,7 @@ dependencies:
   bitmap: ^0.1.2
   intl: ^0.17.0
   uuid: ^3.0.6
+  mailer: ^5.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,17 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/01/_-2.png
+    - assets/01/_-5.png
+    - assets/01/_-11.png
+    - assets/02/__1.png
+    - assets/02/__2.png
+    - assets/02/__3.png
+    - assets/02/__4.png
+    - assets/02/__5.png
+    - assets/02/__6.png
+    - assets/02/__7.png
+    - assets/02/__9.png
     - assets/catalog01.png
     - assets/catalog02.png
     - assets/biglogo.png

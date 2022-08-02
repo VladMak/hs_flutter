@@ -54,10 +54,10 @@ class Coupons extends StatelessWidget {
           Column(
             children: [
               CouponItem(),
+              CouponItem2(),
+              CouponItem3(),
               CouponItem(),
-              CouponItem(),
-              CouponItem(),
-              CouponItem()
+              CouponItem2()
             ],
           )
         ],
@@ -184,7 +184,35 @@ class CouponItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10),
-      child: Image(image: AssetImage("assets/catalog02.png")),
+      child: Image(image: AssetImage("assets/01/_-2.png")),
+    );
+  }
+}
+
+class CouponItem2 extends StatelessWidget {
+  const CouponItem2({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Image(image: AssetImage("assets/01/_-5.png")),
+    );
+  }
+}
+
+class CouponItem3 extends StatelessWidget {
+  const CouponItem3({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Image(image: AssetImage("assets/01/_-11.png")),
     );
   }
 }

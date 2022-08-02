@@ -7,6 +7,21 @@ import '../models/Api.dart';
 import '../models/CustomTextFields.dart';
 import 'Cabinet.dart';
 
+String? validateEmail(value) {
+  var regemail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (value.isEmpty) {
+    return 'Адрес электронной почты не должен быть пустым';
+  }
+
+  if (regemail.hasMatch(value)) {
+    print("Корректная почта");
+  } else {
+    return ("Некорректная почта");
+  }
+
+  return null;
+}
+
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage(
       {Key? key,
@@ -37,6 +52,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   bool _isLoading = false;
   Color focusColor = Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
   late FocusNode _focusNode;
+
+  TextEditingController _textFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -92,13 +109,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _nameWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Имя пользователя',
         icon: Icons.person_pin_rounded,
         saver: (value) => _name = value.trim(),
-        validator: (value) => value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
       ),
     );
   }
@@ -106,13 +123,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _emailWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Адрес электронной почты',
         icon: Icons.mail,
         saver: (value) => _email = value.trim(),
-        validator: (value) => value.isEmpty ? 'Адрес электронной почты не должен быть пустым' : null,
+        validator: (value) => validateEmail(value),
       ),
     );
   }
@@ -120,13 +136,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _passwordWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: 
-      AuthFormTextField(
+      child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Пароль',
         icon: Icons.lock,
         saver: (value) => _password = value.trim(),
-        validator: (value) => value.isEmpty ? 'Пароль не должен быть пустым' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Пароль не должен быть пустым' : null,
       ),
     );
   }
@@ -153,7 +169,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: _formMode == FormMode.LOGIN
           ? new Text('Создать аккаунт',
               style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500))
-          : new Text('Уже зарегестрированы? Войти',
+          : new Text('Уже зарегистрированы? Войти',
               style:
                   new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
       onPressed: _formMode == FormMode.LOGIN ? showSignupForm : showLoginForm,
@@ -181,10 +197,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       return new Text(
         _errorMessage,
         style: TextStyle(
-            fontSize: 13.0,
+            fontSize: 18.0,
             color: Colors.red,
             height: 1.0,
-            fontWeight: FontWeight.w300),
+            fontWeight: FontWeight.w700),
       );
     } else {
       return new Container(
@@ -242,9 +258,30 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           }
         } else {
           Api api = Api();
+
           var logged = await api.registration(
               name: _name, email: _email, pswd: _password);
-          if (logged) {
+          print("LOGGED {$logged}");
+          await _confirmCodeDialog(context);
+          if (_textFieldController.text == logged) {
+            // Коды совпали
+            Navigator.of(widget.queue.removeLast()).pushReplacement(
+                MaterialPageRoute(builder: (context) => Cabinet()));
+            widget.queue.addLast(
+                keyFragmentBody.currentState?.getContext() as BuildContext);
+            widget.updateTitle(screenTitles[Screen.Cabinet]);
+
+            setState(() {
+              _isLoading = false;
+            });
+          }
+          else{
+            setState(() {
+              _isLoading = false;
+              _errorMessage = "Неверный код!";
+            });
+          }
+          /*if (logged != "false") {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
             Navigator.of(widget.queue.removeLast()).pushReplacement(
                 MaterialPageRoute(builder: (context) => Cabinet()));
@@ -269,11 +306,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                 ],
               ),
             );
-          }
+          }*/
         }
-        setState(() {
-          _isLoading = false;
-        });
 
         if (userId.length > 0 && userId != null) {
           //widget.onSignedIn();
@@ -293,5 +327,35 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         _isLoading = false;
       });
     }
+  }
+
+  Future<void> _confirmCodeDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Подтверждение электронной почты'),
+          content: TextField(
+            controller: _textFieldController,
+            decoration: InputDecoration(hintText: "Введите код подтверждения"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Отмена'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text('Подтвердить'),
+              onPressed: () {
+                print(_textFieldController.text);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
