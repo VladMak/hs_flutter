@@ -31,9 +31,7 @@ class Api {
     var newbody =
         '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "reg","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
     // делаем запрос к удаленному хосту, к бд там.
-    var response = await http.post(url,
-        body:
-            '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "$uuid_res","name": "$name","card": "12312457","email": "$email", "password": "$pswd", "enter": "reg"}');
+    var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
@@ -71,9 +69,9 @@ class Api {
       String pswd = "sdf"}) async {
     var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
 
-    var response = await http.post(url,
-        body:
-            '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "aecd49c9-70c3-4aef-8c68-ce5bc54005ad","name": "$name","card": "123124","email": "$email", "password": "$pswd", "enter": "login"}');
+    var newbody =
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "login","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+    var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
@@ -121,9 +119,10 @@ class Api {
       print("EL ${token[0].uid}");
       tt = token[0].uid;
     }
-    var response = await http.post(url,
-        body:
-            '{"token":"jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "aecd49c9-70c3-4aef-8c68-ce5bc54005ad","name": "$name","card": "123124","email": "$email", "password": "$pswd", "enter": "check", "tt": "$tt"}');
+
+    var newbody =
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "check","userToken": "$tt","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+    var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     if (response.body == tt) {
