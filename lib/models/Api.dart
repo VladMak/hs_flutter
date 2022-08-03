@@ -27,6 +27,9 @@ class Api {
     var uuid_res = uuid.v4();
 
     var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
+
+    var newbody =
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "reg","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
     // делаем запрос к удаленному хосту, к бд там.
     var response = await http.post(url,
         body:
