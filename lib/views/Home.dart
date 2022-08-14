@@ -5,6 +5,7 @@ import 'package:myapp/models/Mailer.dart';
 import 'package:myapp/views/CarouselSalesView.dart';
 import 'package:myapp/models/Api.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
+import 'dart:typed_data';
 
 import '../main.dart';
 
@@ -57,7 +58,7 @@ class Home extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Future<Widget> build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: ListView(

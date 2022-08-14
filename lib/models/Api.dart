@@ -5,10 +5,21 @@ import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
+import 'dart:convert';
 
 import 'dart:convert';
 
 class Api {
+  Future<List<int>> getImage() async {
+    var url = Uri.parse(
+        'http://45.141.102.186:8000/1d526c23-4ddf-4502-9a63-c04d7f330c8b_0.576c78aa695f9');
+    var response = await http.get(url);
+
+    List<int> bytes = utf8.encode(response.body);
+
+    return bytes;
+  }
+
   Future<String> registration(
       {String name = "Член",
       String email = "xyu@123",
