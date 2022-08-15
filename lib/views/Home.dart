@@ -58,7 +58,7 @@ class Home extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Future<Widget> build(BuildContext context) {
+  Container build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: ListView(

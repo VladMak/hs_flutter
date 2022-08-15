@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
@@ -11,6 +13,8 @@ import 'package:myapp/views/UserAgreement.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
+
+import '../models/Api.dart';
 
 /*class Cabinet extends StatefulWidget {
   const Cabinet({Key? key}) : super(key: key);
@@ -55,12 +59,12 @@ class _CabinetState extends State<Cabinet> {
   }
 }*/
 
-class Cabinet extends StatelessWidget {
+class Cabinet extends StatefulWidget {
   const Cabinet({
     Key? key,
   }) : super(key: key);
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
@@ -72,219 +76,261 @@ class Cabinet extends StatelessWidget {
         ],
       ),
     );
+  }*/
+
+  @override
+  State<Cabinet> createState() {
+    return VirtualCard();
   }
 }
 
-class VirtualCard extends StatelessWidget {
-  const VirtualCard({
-    Key? key,
-  }) : super(key: key);
+Future<dynamic> getData() async {
+  var api = new Api();
+  var jsonInfo = await api.GetUserData();
+
+  return jsonInfo;
+}
+
+class VirtualCard extends State<Cabinet> {
+  Future<dynamic> _myData = getData();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Image(image: AssetImage("assets/virtcard.png")),
-          ),
-          Padding(
-            child: BarcodeWidget(
-              data: "1234567890123456", // Тут штрих код
-              barcode: Barcode.code128(),
-              width: 300,
-              drawText: false,
-            ),
-            padding: EdgeInsets.all(10),
-          ),
-          Padding(
-              padding: EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  child: Text(
-                    "Владелец: Макаров В. А.",
+    return FutureBuilder(
+        future: _myData,
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            print("GOVNO ${snapshot.data.runtimeType}");
+            print("GOVNO ${snapshot.data as String}");
+            var jsonFromStr = jsonDecode(snapshot.data as String);
+            return Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Image(image: AssetImage("assets/virtcard.png")),
                   ),
-                  width: 300,
-                ),
-              )),
-          Padding(
-              padding: EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  child: Text(
-                    "Номер: 1234567890123456",
+                  Padding(
+                    child: BarcodeWidget(
+                      data: "${jsonFromStr["vuscard"]}", // Тут штрих код
+                      barcode: Barcode.code128(),
+                      width: 300,
+                      drawText: false,
+                    ),
+                    padding: EdgeInsets.all(10),
                   ),
-                  width: 300,
-                ),
-              )),
-          Padding(
-              padding: EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  child: Text(
-                    "ШК: 1234567890123456",
-                  ),
-                  width: 300,
-                ),
-              )),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(builder: (context) => MyCoupons()));
-                  },
-                  child: Text("Мои купоны"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18); //#b31918
-                  })),
-                ),
-                width: 300,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(builder: (context) => ProfileEdit()));
-                  },
-                  child: Text("Редактировать профиль"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                  })),
-                ),
-                width: 300,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(
-                            builder: (context) => PersonalDataProtection()));
-                  },
-                  child: Text("Обработка перс. данных"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                  })),
-                ),
-                width: 300,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(
-                            builder: (context) => MyPurchaseHistory()));
-                  },
-                  child: Text("История покупок"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                  })),
-                ),
-                width: 300,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        keyFragmentBody.currentContext as BuildContext,
-                        MaterialPageRoute(
-                            builder: (context) => UserAgreement()));
-                  },
-                  child: Text("Пользовательское соглашение"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                  })),
-                ),
-                width: 300,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    WidgetsFlutterBinding.ensureInitialized();
-                    final database = openDatabase(
-                        join(await getDatabasesPath(), 'tokens.db'),
-                        version: 1, onCreate: (db, version) {
-                      return db.execute(
-                        "create table token (uid text primary key);",
-                      );
-                    });
-                    final db = await database;
-                    db.execute("delete from token;");
-                    Navigator.pushAndRemoveUntil(
-                      keyFragmentBody.currentState?.getContext() as BuildContext,
-                      MaterialPageRoute(
-                        builder: (context) => Home(),
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: Text(
+                            "Владелец: ${jsonFromStr["vusname"]}",
+                          ),
+                          width: 300,
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: Text(
+                            "Номер: ${jsonFromStr["vuscard"]}",
+                          ),
+                          width: 300,
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: Text(
+                            "ШК: ${jsonFromStr["vuscard"]}",
+                          ),
+                          width: 300,
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: Text(
+                            "Ваша скида: " +
+                                (double.parse(jsonFromStr["discount"]) * 100)
+                                    .toInt()
+                                    .toString() +
+                                "%",
+                          ),
+                          width: 300,
+                        ),
+                      )),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                keyFragmentBody.currentContext as BuildContext,
+                                MaterialPageRoute(
+                                    builder: (context) => MyCoupons()));
+                          },
+                          child: Text("Мои купоны"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(
+                                0xFF, 0xB3, 0x19, 0x18); //#b31918
+                          })),
+                        ),
+                        width: 300,
                       ),
-                      (route) => true);
-                    keyNavBar.currentState?.getQueue().clear();
-                    keyNavBar.currentState?.widget.updateTitle(screenTitles[Screen.Home]);
-                    keyNavBar.currentState!.selectItem(Screen.Home);
-                  },
-                  child: Text("Выйти"),
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                  })),
-                ),
-                width: 300,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.push(
+                                keyFragmentBody.currentContext as BuildContext,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileEdit()));
+                          },
+                          child: Text("Редактировать профиль"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                keyFragmentBody.currentContext as BuildContext,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PersonalDataProtection()));
+                          },
+                          child: Text("Обработка перс. данных"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                keyFragmentBody.currentContext as BuildContext,
+                                MaterialPageRoute(
+                                    builder: (context) => MyPurchaseHistory()));
+                          },
+                          child: Text("История покупок"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                keyFragmentBody.currentContext as BuildContext,
+                                MaterialPageRoute(
+                                    builder: (context) => UserAgreement()));
+                          },
+                          child: Text("Пользовательское соглашение"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            WidgetsFlutterBinding.ensureInitialized();
+                            final database = openDatabase(
+                                join(await getDatabasesPath(), 'tokens.db'),
+                                version: 1, onCreate: (db, version) {
+                              return db.execute(
+                                "create table token (uid text primary key);",
+                              );
+                            });
+                            final db = await database;
+                            db.execute("delete from token;");
+                            Navigator.pushAndRemoveUntil(
+                                keyFragmentBody.currentState?.getContext()
+                                    as BuildContext,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(),
+                                ),
+                                (route) => true);
+                            keyNavBar.currentState?.getQueue().clear();
+                            keyNavBar.currentState?.widget
+                                .updateTitle(screenTitles[Screen.Home]);
+                            keyNavBar.currentState!.selectItem(Screen.Home);
+                          },
+                          child: Text("Выйти"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        }));
   }
 }

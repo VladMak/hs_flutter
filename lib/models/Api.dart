@@ -82,6 +82,7 @@ class Api {
 
     var newbody =
         '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "login","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+    print("LOGIN: $newbody");
     var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -99,6 +100,9 @@ class Api {
     });
     var token = DataToken(uid: response.body, ukmid: "");
     final db = await database;
+    await db.execute(
+      "delete from token;",
+    );
     await db.insert("token", token.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return true;
@@ -141,6 +145,38 @@ class Api {
     } else {
       return false;
     }
+  }
+
+  Future<String> GetUserData() async {
+    var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
+
+    WidgetsFlutterBinding.ensureInitialized();
+    final database = openDatabase(join(await getDatabasesPath(), 'tokens.db'),
+        version: 1, onCreate: (db, version) {
+      return db.execute(
+        "create table token (uid text primary key, ukmid text);",
+      );
+    });
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query("token");
+
+    var token = List.generate(maps.length, (index) {
+      return DataToken(uid: maps[index]["uid"], ukmid: "");
+    });
+    print("LENGTH ${token.length}");
+    var tt;
+    if (token.length > 0) {
+      print("EL ${token[0].uid} - $token");
+      tt = token[0].uid;
+    }
+
+    var newbody =
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "S","card": "0","email": "S","password": "S","enter": "userdata","userToken": $tt,"level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+    print("REQUEST $newbody");
+    var response = await http.post(url, body: newbody);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return response.body;
   }
 }
 
