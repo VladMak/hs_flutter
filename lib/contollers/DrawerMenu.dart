@@ -2,13 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
-import 'package:myapp/models/Shop.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/Sales.dart';
-import 'package:myapp/views/Shops.dart';
 
 class DrawerMenu extends StatelessWidget {
   DrawerMenu(
@@ -103,25 +101,6 @@ class DrawerMenu extends StatelessWidget {
               Navigator.pop(context);
               keyNavBar.currentState!.selectItem(Screen.Cabinet);
               updateTitle(screenTitles[Screen.Cabinet]);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.shop),
-            title: Text("Магазины"),
-            onTap: () {
-              if (_queue.isNotEmpty) {
-                Navigator.of(_queue.removeLast()).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Shops()));
-              } else {
-                Navigator.of(keyFragmentBody.currentState?.getContext()
-                        as BuildContext)
-                    .push(MaterialPageRoute(builder: (context) => Shops()));
-              }
-              _queue.addLast(
-                  keyFragmentBody.currentState?.getContext() as BuildContext);
-              Navigator.pop(context);
-              keyNavBar.currentState!.selectItem(Screen.Home);
-              updateTitle(screenTitles[Screen.Shops]);
             },
           ),
           ListTile(

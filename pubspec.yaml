@@ -41,7 +41,6 @@ dependencies:
   barcode: ^2.2.0
   barcode_widget: ^2.0.2
   url_launcher: ^6.1.0
-  yandex_mapkit: ^2.0.5
   postgres: ^2.4.3
   http: ^0.13.4
   bitmap: ^0.1.2
