@@ -221,7 +221,7 @@ class _AuthFormTextFieldState extends State<AuthFormTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: 1,
-      keyboardType: TextInputType.name,
+      keyboardType: TextInputType.text,
       autofocus: false,
       focusNode: _focusNode,
       cursorColor: widget.focusColor,
@@ -230,11 +230,18 @@ class _AuthFormTextFieldState extends State<AuthFormTextField> {
             borderSide: BorderSide(color: widget.focusColor)),
         labelText: widget.labelText,
         labelStyle: TextStyle(
-            color: _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
-        icon: Icon(widget.icon, color: _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
+            color:
+                _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
+        icon: Icon(widget.icon,
+            color:
+                _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
       ),
-      validator: (value){return widget.validator!(value!);},
-      onSaved: (value){widget.saver!(value!);},
+      validator: (value) {
+        return widget.validator!(value!);
+      },
+      onSaved: (value) {
+        widget.saver!(value!);
+      },
     );
   }
 }

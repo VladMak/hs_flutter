@@ -66,12 +66,6 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Column(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    var mailer = Mailer();
-                    mailer.sendMy();
-                  },
-                  child: Text("SDFDS")),
               CarouselSales(),
               Text("Каталог"),
               CatalogView(),
