@@ -98,7 +98,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          _nameWidget(),
+          _mobileNumWidget(),
           _emailWidget(),
           _passwordWidget(),
         ],
@@ -106,16 +106,18 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-  Widget _nameWidget() {
+  Widget _mobileNumWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-      child: AuthFormTextField(
+      child: TextFieldItem(
         focusColor: focusColor,
-        labelText: 'Имя пользователя',
-        icon: Icons.person_pin_rounded,
-        saver: (value) => _name = value.trim(),
-        validator: (value) =>
-            value.isEmpty ? 'Имя пользователя не должно быть пустым' : null,
+        labelText: 'Мобильный телефон',
+        icon: Icons.phone_android,
+        keyboardType: TextInputType.phone,
+        onTap: () {},
+        onSave: (value) => _name = value.trim(),
+        onValidate: (value) =>
+            value.isEmpty ? 'Необходимо указать рабочий номер телефона' : null,
       ),
     );
   }
@@ -123,12 +125,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget _emailWidget() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: AuthFormTextField(
+      child: TextFieldItem(
         focusColor: focusColor,
         labelText: 'Адрес электронной почты',
         icon: Icons.mail,
-        saver: (value) => _email = value.trim(),
-        validator: (value) => validateEmail(value),
+        keyboardType: TextInputType.emailAddress,
+        onTap: () {},
+        onSave: (value) => _email = value.trim(),
+        onValidate: (value) => validateEmail(value),
       ),
     );
   }
@@ -139,6 +143,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: AuthFormTextField(
         focusColor: focusColor,
         labelText: 'Пароль',
+        hidden: true,
         icon: Icons.lock,
         saver: (value) => _password = value.trim(),
         validator: (value) =>
@@ -249,6 +254,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context, 'Закрыть');
+                      setState(() {
+                        _isLoading = false;
+                      });
                     },
                     child: const Text('Закрыть'),
                   ),
@@ -274,8 +282,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             setState(() {
               _isLoading = false;
             });
-          }
-          else{
+          } else {
             setState(() {
               _isLoading = false;
               _errorMessage = "Неверный код!";

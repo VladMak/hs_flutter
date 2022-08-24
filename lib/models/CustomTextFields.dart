@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 // Обычное текстовое поле
@@ -6,7 +8,13 @@ class TextFieldItem extends StatefulWidget {
   bool? readOnly; // Только чтение
   Color focusColor; // Цвет, которым будет выделяться лэйбл и подчёркивание поля
   String labelText; // Текст лэйбла
+  IconData? icon;
+  int? maxLines;
+  TextInputType keyboardType;
+  TextInputAction textInputAction;
   final void Function()? onTap; // Событие при нажатии
+  final void Function(String)? onSave;
+  final String? Function(String)? onValidate;
 
   TextFieldItem(
       {Key? key,
@@ -14,7 +22,13 @@ class TextFieldItem extends StatefulWidget {
       this.readOnly = false,
       required this.focusColor,
       required this.labelText,
-      required this.onTap})
+      this.icon,
+      this.maxLines = 1,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction =TextInputAction.done,
+      required this.onTap,
+      this.onSave,
+      this.onValidate})
       : super(key: key);
 
   // объект для хранения содержимого текстового поля
@@ -47,18 +61,37 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
   }
 
   @override
+  void didUpdateWidget(func){
+    super.didUpdateWidget(func);
+    widget.textController.text = func.textController.text;
+  }
+
+  @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
   }
 
+  Widget? _hasIcon() {
+    if (widget.icon != null) {
+      return Icon(widget.icon,
+          color:
+              _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500);
+    }
+  }
+
   // Непосредственно текстовое поле
   TextFormField _rootTextField() {
     return TextFormField(
+      keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines,
+      textInputAction: widget.textInputAction,
+      textCapitalization: TextCapitalization.sentences,
       focusNode: _focusNode,
       controller: widget.textController,
       cursorColor: widget.focusColor,
       readOnly: widget.readOnly!,
+      onFieldSubmitted: (v){_focusNode.unfocus();},
       onTap: () {
         setState(() {
           widget.onTap!();
@@ -66,6 +99,12 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
       },
       onEditingComplete: () {
         setState(() {});
+      },
+      validator: (value) {
+        if (widget.onValidate != null) return widget.onValidate!(value!);
+      },
+      onSaved: (value) {
+        widget.onSave!(value!);
       },
       // Настраиваем дизайн
       decoration: InputDecoration(
@@ -75,6 +114,7 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
             color:
                 _focusNode.hasFocus ? widget.focusColor : Colors.grey.shade500),
         labelText: widget.labelText,
+        icon: _hasIcon(),
       ),
     );
   }
@@ -93,7 +133,10 @@ class DropDownTextField extends TextFieldItem {
   Color focusColor;
   String labelText;
   final List<String> items;
+  IconData? icon;
   final void Function()? onTap;
+  final void Function(String)? onSave;
+  final String? Function(String)? onValidate;
 
   DropDownTextField(
       {Key? key,
@@ -102,14 +145,20 @@ class DropDownTextField extends TextFieldItem {
       required this.focusColor,
       required this.labelText,
       required this.items,
-      required this.onTap})
+      this.icon,
+      required this.onTap,
+      this.onSave,
+      this.onValidate})
       : super(
             key: key,
             value: value,
             readOnly: readOnly,
             focusColor: focusColor,
             labelText: labelText,
-            onTap: onTap);
+            icon: icon,
+            onTap: onTap,
+            onSave: onSave,
+            onValidate: onValidate);
 
   @override
   State<DropDownTextField> createState() => DropDownTextFieldState();
@@ -189,6 +238,7 @@ class AuthFormTextField extends StatefulWidget {
   Color focusColor;
   String labelText;
   IconData icon;
+  bool? hidden;
   final String? Function(String)? validator;
   final void Function(String)? saver;
 
@@ -197,6 +247,7 @@ class AuthFormTextField extends StatefulWidget {
       required this.focusColor,
       required this.labelText,
       required this.icon,
+      this.hidden = false,
       required this.validator,
       required this.saver})
       : super(key: key);
@@ -221,7 +272,8 @@ class _AuthFormTextFieldState extends State<AuthFormTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       maxLines: 1,
-      keyboardType: TextInputType.text,
+      obscureText: widget.hidden as bool,
+      keyboardType: TextInputType.name,
       autofocus: false,
       focusNode: _focusNode,
       cursorColor: widget.focusColor,

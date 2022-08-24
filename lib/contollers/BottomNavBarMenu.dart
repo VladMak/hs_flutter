@@ -11,6 +11,8 @@ import 'package:myapp/models/Api.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'ProgressItem.dart';
+
 class BottomNavBarMenu extends StatefulWidget {
   BottomNavBarMenu(
       {Key? key, required Queue<BuildContext> queue, required this.updateTitle})
@@ -38,112 +40,96 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
     });
   }
 
-  void _changeScreenId(Screen id) {
-    setState(() async {
+  void _changeScreenId(Screen id) async {
+    setState(() {
       selectItem(id);
-
-      switch (id) {
-        case Screen.Home:
-          if (widget._queue.isNotEmpty) {
-            Navigator.pushAndRemoveUntil(
-                keyFragmentBody.currentState?.getContext() as BuildContext,
-                MaterialPageRoute(
-                  builder: (context) => Home(),
-                ),
-                (route) => true);
-            widget._queue.clear();
-            widget.updateTitle(screenTitles[Screen.Home]);
-          }
-          break;
-        case Screen.Sales:
-          if (widget._queue.isNotEmpty) {
-            Navigator.of(widget._queue.removeLast()).pushReplacement(
-                MaterialPageRoute(builder: (context) => Sales()));
-          } else {
-            Navigator.of(
-                    keyFragmentBody.currentState?.getContext() as BuildContext)
-                .push(MaterialPageRoute(builder: (context) => Sales()));
-          }
-          widget._queue.addLast(
-              keyFragmentBody.currentState?.getContext() as BuildContext);
-          widget.updateTitle(screenTitles[Screen.Sales]);
-          break;
-        case Screen.Contacts:
-          if (widget._queue.isNotEmpty) {
-            Navigator.of(widget._queue.removeLast()).pushReplacement(
-                MaterialPageRoute(builder: (context) => Contacts()));
-          } else {
-            Navigator.of(
-                    keyFragmentBody.currentState?.getContext() as BuildContext)
-                .push(MaterialPageRoute(builder: (context) => Contacts()));
-          }
-          widget._queue.addLast(
-              keyFragmentBody.currentState?.getContext() as BuildContext);
-          widget.updateTitle(screenTitles[Screen.Contacts]);
-          break;
-        case Screen.Cabinet:
-          var api = Api();
-          WidgetsFlutterBinding.ensureInitialized();
-          final database = openDatabase(
-              join(await getDatabasesPath(), 'tokens.db'),
-              version: 1, onCreate: (db, version) {
-            return db.execute(
-              "create table token (uid text primary key);",
-            );
-          });
-          final db = await database;
-          final List<Map<String, dynamic>> maps = await db.query("token");
-
-          var token = List.generate(maps.length, (index) {
-            return DataToken(uid: maps[index]["uid"], ukmid: "");
-          });
-          var localToken;
-          if (token.length > 0) {
-            localToken = token[0].uid;
-          } else {
-            localToken = "";
-          }
-
-          var login = await api.checkToken(localToken);
-          if (widget._queue.isNotEmpty) {
-            if (login) {
-              Navigator.of(widget._queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Cabinet()));
-            } else {
-              Navigator.of(widget._queue.removeLast()).pushReplacement(
-                  MaterialPageRoute(
-                      builder: (context) => LoginSignupPage(
-                          queue: widget._queue,
-                          updateTitle: widget.updateTitle)));
-            }
-          } else {
-            if (login) {
-              Navigator.of(keyFragmentBody.currentState?.getContext()
-                      as BuildContext)
-                  .push(MaterialPageRoute(builder: (context) => Cabinet()));
-            } else {
-              Navigator.of(keyFragmentBody.currentState?.getContext()
-                      as BuildContext)
-                  .push(MaterialPageRoute(
-                      builder: (context) => LoginSignupPage(
-                          queue: widget._queue,
-                          updateTitle: widget.updateTitle)));
-            }
-          }
-          if (login) {
-            widget._queue.addLast(
-                keyFragmentBody.currentState?.getContext() as BuildContext);
-            widget.updateTitle(screenTitles[Screen.Cabinet]);
-          } else {
-            widget._queue.addLast(
-                keyFragmentBody.currentState?.getContext() as BuildContext);
-            widget.updateTitle(screenTitles[Screen.Signup]);
-          }
-
-          break;
-        default:
-      }
     });
+    switch (id) {
+      case Screen.Home:
+        if (widget._queue.isNotEmpty) {
+          Navigator.pushAndRemoveUntil(
+              keyFragmentBody.currentState?.getContext() as BuildContext,
+              MaterialPageRoute(
+                builder: (context) => Home(),
+              ),
+              (route) => true);
+          widget._queue.clear();
+          widget.updateTitle(screenTitles[Screen.Home]);
+        }
+        break;
+      case Screen.Sales:
+        if (widget._queue.isNotEmpty) {
+          Navigator.of(widget._queue.removeLast()).pushReplacement(
+              MaterialPageRoute(builder: (context) => Sales()));
+        } else {
+          Navigator.of(
+                  keyFragmentBody.currentState?.getContext() as BuildContext)
+              .push(MaterialPageRoute(builder: (context) => Sales()));
+        }
+        widget._queue.addLast(
+            keyFragmentBody.currentState?.getContext() as BuildContext);
+        widget.updateTitle(screenTitles[Screen.Sales]);
+        break;
+      case Screen.Contacts:
+        if (widget._queue.isNotEmpty) {
+          Navigator.of(widget._queue.removeLast()).pushReplacement(
+              MaterialPageRoute(builder: (context) => Contacts()));
+        } else {
+          Navigator.of(
+                  keyFragmentBody.currentState?.getContext() as BuildContext)
+              .push(MaterialPageRoute(builder: (context) => Contacts()));
+        }
+        widget._queue.addLast(
+            keyFragmentBody.currentState?.getContext() as BuildContext);
+        widget.updateTitle(screenTitles[Screen.Contacts]);
+        break;
+      case Screen.Cabinet:
+        Navigator.of(keyFragmentBody.currentState!.context).push(
+            PageRouteBuilder(
+                pageBuilder: (context, _, __) => ProgressItem(),
+                opaque: false));
+
+        var api = Api();
+        var login = await api.checkToken();
+
+        Navigator.of(keyFragmentBody.currentState!.context).pop();
+        if (widget._queue.isNotEmpty) {
+          if (login) {
+            Navigator.of(widget._queue.removeLast()).pushReplacement(
+                MaterialPageRoute(builder: (context) => Cabinet()));
+          } else {
+            Navigator.of(widget._queue.removeLast()).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => LoginSignupPage(
+                        queue: widget._queue,
+                        updateTitle: widget.updateTitle)));
+          }
+        } else {
+          if (login) {
+            Navigator.of(
+                    keyFragmentBody.currentState?.getContext() as BuildContext)
+                .push(MaterialPageRoute(builder: (context) => Cabinet()));
+          } else {
+            Navigator.of(
+                    keyFragmentBody.currentState?.getContext() as BuildContext)
+                .push(MaterialPageRoute(
+                    builder: (context) => LoginSignupPage(
+                        queue: widget._queue,
+                        updateTitle: widget.updateTitle)));
+          }
+        }
+        if (login) {
+          widget._queue.addLast(
+              keyFragmentBody.currentState?.getContext() as BuildContext);
+          widget.updateTitle(screenTitles[Screen.Cabinet]);
+        } else {
+          widget._queue.addLast(
+              keyFragmentBody.currentState?.getContext() as BuildContext);
+          widget.updateTitle(screenTitles[Screen.Signup]);
+        }
+        break;
+      default:
+    }
   }
 
   @override

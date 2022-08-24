@@ -12,6 +12,7 @@ import 'package:myapp/views/PurchaseHistory.dart';
 import 'package:myapp/views/UserAgreement.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
 import '../models/Api.dart';
@@ -102,8 +103,8 @@ class VirtualCard extends State<Cabinet> {
           if (snapshot.hasData) {
             print("GOVNO ${snapshot.data.runtimeType}");
             print("GOVNO ${snapshot.data as String}");
-            var jsonFromStr = jsonDecode(snapshot.data as String);
-            return Padding(
+            var jsonFromStr = jsonDecode(snapshot. data as String);
+            return ListView(children: <Widget>[Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Column(
                 children: [
@@ -159,10 +160,10 @@ class VirtualCard extends State<Cabinet> {
                         alignment: Alignment.center,
                         child: SizedBox(
                           child: Text(
-                            "Ваша скида: " +
+                            "Ваша скида: " + (jsonFromStr["discount"] == null? "0" :
                                 (double.parse(jsonFromStr["discount"]) * 100)
                                     .toInt()
-                                    .toString() +
+                                    .toString()) +
                                 "%",
                           ),
                           width: 300,
@@ -292,6 +293,28 @@ class VirtualCard extends State<Cabinet> {
                       child: SizedBox(
                         child: ElevatedButton(
                           onPressed: () async {
+                            var url = Uri.parse("https://hlebsol.taplink.ws");
+                            if(await canLaunchUrl(url))
+                              await launchUrl(url);
+                          },
+                          child: Text("Обратная связь"),
+                          style: ButtonStyle(backgroundColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                          })),
+                        ),
+                        width: 300,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () async {
                             WidgetsFlutterBinding.ensureInitialized();
                             final database = openDatabase(
                                 join(await getDatabasesPath(), 'tokens.db'),
@@ -327,9 +350,12 @@ class VirtualCard extends State<Cabinet> {
                   ),
                 ],
               ),
-            );
+            )]);
           } else {
-            return CircularProgressIndicator();
+            return Center(
+                child: CircularProgressIndicator(
+                    color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
+              );
           }
         }));
   }

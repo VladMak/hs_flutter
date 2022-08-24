@@ -69,6 +69,9 @@ class Api {
     print(List.generate(maps.length, (index) {
       return DataToken(uid: maps[index]["uid"], ukmid: "");
     }));
+
+    bool lgn = await login(name: name, email: email, pswd: pswd);
+
     return response.body;
     //print(db.getToken());
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
@@ -87,7 +90,7 @@ class Api {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
-    if (response.body == "") {
+    if (jsonDecode(response.body) == "не вышло") {
       return false;
     }
 
@@ -109,7 +112,7 @@ class Api {
     //print(await http.read(Uri.parse('https://example.com/foobar.txt')));
   }
 
-  Future<bool> checkToken(String localToken,
+  Future<bool> checkToken(
       {String name = "Член",
       String email = "xyu@123",
       String pswd = "sdf"}) async {
@@ -136,7 +139,7 @@ class Api {
     }
 
     var newbody =
-        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "check","userToken": "$tt","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "check","userToken": $tt,"level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
     var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');

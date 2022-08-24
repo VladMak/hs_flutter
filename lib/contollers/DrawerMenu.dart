@@ -1,12 +1,16 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/contollers/ProgressItem.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/models/Api.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Coupons.dart';
+import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
+import 'package:myapp/views/Shops.dart';
 
 class DrawerMenu extends StatelessWidget {
   DrawerMenu(
@@ -85,22 +89,71 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text("Личный кабинет"),
+            leading: Icon(Icons.store_mall_directory_outlined),
+            title: Text("Магазины"),
             onTap: () {
               if (_queue.isNotEmpty) {
                 Navigator.of(_queue.removeLast()).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Cabinet()));
+                    MaterialPageRoute(builder: (context) => Shops()));
               } else {
                 Navigator.of(keyFragmentBody.currentState?.getContext()
                         as BuildContext)
-                    .push(MaterialPageRoute(builder: (context) => Cabinet()));
+                    .push(MaterialPageRoute(builder: (context) => Shops()));
               }
               _queue.addLast(
                   keyFragmentBody.currentState?.getContext() as BuildContext);
               Navigator.pop(context);
-              keyNavBar.currentState!.selectItem(Screen.Cabinet);
-              updateTitle(screenTitles[Screen.Cabinet]);
+              keyNavBar.currentState!.selectItem(Screen.Home);
+              updateTitle(screenTitles[Screen.Shops]);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text("Личный кабинет"),
+            onTap: () async {
+              Navigator.of(keyFragmentBody.currentState!.context).push(
+                  PageRouteBuilder(
+                      pageBuilder: (context, _, __) => ProgressItem(),
+                      opaque: false));
+
+              var api = Api();
+              var login = await api.checkToken();
+
+              Navigator.of(keyFragmentBody.currentState!.context).pop();
+              if (_queue.isNotEmpty) {
+                if (login) {
+                  Navigator.of(_queue.removeLast()).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Cabinet()));
+                } else {
+                  Navigator.of(_queue.removeLast()).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (context) => LoginSignupPage(
+                              queue: _queue, updateTitle: updateTitle)));
+                }
+              } else {
+                if (login) {
+                  Navigator.of(keyFragmentBody.currentState?.getContext()
+                          as BuildContext)
+                      .push(MaterialPageRoute(builder: (context) => Cabinet()));
+                } else {
+                  Navigator.of(keyFragmentBody.currentState?.getContext()
+                          as BuildContext)
+                      .push(MaterialPageRoute(
+                          builder: (context) => LoginSignupPage(
+                              queue: _queue, updateTitle: updateTitle)));
+                }
+              }
+              if (login) {
+                _queue.addLast(
+                    keyFragmentBody.currentState?.getContext() as BuildContext);
+                updateTitle(screenTitles[Screen.Cabinet]);
+                keyNavBar.currentState!.selectItem(Screen.Cabinet);
+              } else {
+                _queue.addLast(
+                    keyFragmentBody.currentState?.getContext() as BuildContext);
+                updateTitle(screenTitles[Screen.Signup]);
+              }
+              Navigator.of(context).pop();
             },
           ),
           ListTile(
