@@ -111,7 +111,7 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.person),
             title: Text("Личный кабинет"),
             onTap: () async {
-              Navigator.of(keyFragmentBody.currentState!.context).push(
+              Navigator.of(keyFragmentBody.currentState!.getContext()).push(
                   PageRouteBuilder(
                       pageBuilder: (context, _, __) => ProgressItem(),
                       opaque: false));
@@ -119,7 +119,7 @@ class DrawerMenu extends StatelessWidget {
               var api = Api();
               var login = await api.checkToken();
 
-              Navigator.of(keyFragmentBody.currentState!.context).pop();
+              Navigator.of(keyFragmentBody.currentState!.getContext()).pop();
               if (_queue.isNotEmpty) {
                 if (login) {
                   Navigator.of(_queue.removeLast()).pushReplacement(

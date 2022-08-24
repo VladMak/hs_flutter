@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
@@ -180,6 +181,66 @@ class Api {
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     return response.body;
+  }
+
+  Future<Widget> GetCoupons(bool public) async {
+    try {
+      var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
+
+      var newbody = "";
+
+      if(public)
+        newbody = '{"your_action":"Gimme this public shit"}';
+      else
+        newbody = '{"your_action":"Gimme this personal shit"}';
+
+      print("REQUEST $newbody");
+      var response = await http.post(url, body: newbody);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode != 200) throw Exception("Ошибка");
+
+      var data = List.from(jsonDecode(response.body));
+
+      if (data.length < 1) {
+        return Center(
+          child: Text("Не найдено доступных купонов",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        );
+      } else {
+        List<Widget> coupons = [];
+
+        for (var coupon in data) {
+          coupons.add(Container(
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Image.network(
+              coupon["url"],
+              errorBuilder: (context, obj, trace) => Text("Купон не загружен"),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(
+                    color: Colors.white,
+                    child: Center(
+                        child: Container(
+                            color: Colors.white,
+                            height: 45,
+                            width: 45,
+                            child: CircularProgressIndicator(
+                                color:
+                                    Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)))));
+              },
+            ),
+          ));
+        }
+        return ListView(children: coupons);
+      }
+    } catch (ex) {
+      return Center(
+        child: Text("При загрузке купонов произошла ошибка",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      );
+    }
   }
 }
 

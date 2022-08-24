@@ -74,7 +74,17 @@ class Contacts extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.center,
                       child: SizedBox(
-                        child: Text("Сюда ссыль"),
+                        child: GestureDetector(
+                            child: InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Text("Обратная связь",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          onTap: () async {
+                            var url = Uri.parse("https://hlebsol.taplink.ws");
+                            if (await canLaunchUrl(url)) await launchUrl(url);
+                          },
+                        )),
                         width: 300,
                       ),
                     )),
