@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/views/PersonalDataProtection.dart';
 
 import '../main.dart';
 import '../models/Api.dart';
@@ -71,6 +72,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: Column(
           children: <Widget>[
             formWidget(),
+            policy(),
             loginButtonWidget(),
             secondaryButton(),
             errorWidget(),
@@ -79,6 +81,23 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         ),
       ),
     );
+  }
+
+  Widget policy() {
+    return _formMode == FormMode.LOGIN
+        ? Container()
+        : Row(children: [
+            _MyCheckbox(),
+            GestureDetector(
+              child: Text("Я принимаю политику конфиденциальности"),
+              onTap: () {
+                Navigator.push(
+                    keyFragmentBody.currentContext as BuildContext,
+                    MaterialPageRoute(
+                        builder: (context) => PersonalDataProtection()));
+              },
+            )
+          ]);
   }
 
   Widget progressWidget() {
@@ -362,6 +381,29 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             ),
           ],
         );
+      },
+    );
+  }
+}
+
+class _MyCheckbox extends StatefulWidget {
+  const _MyCheckbox({Key? key}) : super(key: key);
+
+  @override
+  State<_MyCheckbox> createState() => __MyCheckboxState();
+}
+
+class __MyCheckboxState extends State<_MyCheckbox> {
+  bool isChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: isChecked,
+      onChanged: (bool? value) {
+        setState(() {
+          isChecked = value!;
+        });
       },
     );
   }

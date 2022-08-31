@@ -103,259 +103,269 @@ class VirtualCard extends State<Cabinet> {
           if (snapshot.hasData) {
             print("GOVNO ${snapshot.data.runtimeType}");
             print("GOVNO ${snapshot.data as String}");
-            var jsonFromStr = jsonDecode(snapshot. data as String);
-            return ListView(children: <Widget>[Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Image(image: AssetImage("assets/virtcard.png")),
-                  ),
-                  Padding(
-                    child: BarcodeWidget(
-                      data: "${jsonFromStr["vuscard"]}", // Тут штрих код
-                      barcode: Barcode.code128(),
-                      width: 300,
-                      drawText: false,
+            var jsonFromStr = jsonDecode(snapshot.data as String);
+            return ListView(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Image(image: AssetImage("assets/virtcard.png")),
                     ),
-                    padding: EdgeInsets.all(10),
-                  ),
-                  Padding(
+                    Padding(
+                      child: BarcodeWidget(
+                        data: "${jsonFromStr["vuscard"]}", // Тут штрих код
+                        barcode: Barcode.code128(),
+                        width: 300,
+                        drawText: false,
+                      ),
+                      padding: EdgeInsets.all(10),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: Text(
+                              "Владелец: ${jsonFromStr["vusname"]}",
+                            ),
+                            width: 300,
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: Text(
+                              "Номер: ${jsonFromStr["vuscard"]}",
+                            ),
+                            width: 300,
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: Text(
+                              "ШК: ${jsonFromStr["vuscard"]}",
+                            ),
+                            width: 300,
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: Text(
+                              "Ваша скида: " +
+                                  (jsonFromStr["discount"] == null
+                                      ? "0"
+                                      : (double.parse(jsonFromStr["discount"]) *
+                                              100)
+                                          .toInt()
+                                          .toString()) +
+                                  "%",
+                            ),
+                            width: 300,
+                          ),
+                        )),
+                    Padding(
                       padding: EdgeInsets.all(10),
                       child: Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          child: Text(
-                            "Владелец: ${jsonFromStr["vusname"]}",
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  keyFragmentBody.currentContext
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyCoupons()));
+                            },
+                            child: Text("Мои купоны"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(
+                                  0xFF, 0xB3, 0x19, 0x18); //#b31918
+                            })),
                           ),
                           width: 300,
                         ),
-                      )),
-                  Padding(
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.all(10),
                       child: Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          child: Text(
-                            "Номер: ${jsonFromStr["vuscard"]}",
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              Navigator.push(
+                                  keyFragmentBody.currentContext
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfileEdit()));
+                            },
+                            child: Text("Редактировать профиль"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
                           ),
                           width: 300,
                         ),
-                      )),
-                  Padding(
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.all(10),
                       child: Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          child: Text(
-                            "ШК: ${jsonFromStr["vuscard"]}",
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  keyFragmentBody.currentContext
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PersonalDataProtection()));
+                            },
+                            child: Text("Обработка перс. данных"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
                           ),
                           width: 300,
                         ),
-                      )),
-                  Padding(
+                      ),
+                    ),
+                    Padding(
                       padding: EdgeInsets.all(10),
                       child: Align(
                         alignment: Alignment.center,
                         child: SizedBox(
-                          child: Text(
-                            "Ваша скида: " + (jsonFromStr["discount"] == null? "0" :
-                                (double.parse(jsonFromStr["discount"]) * 100)
-                                    .toInt()
-                                    .toString()) +
-                                "%",
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  keyFragmentBody.currentContext
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyPurchaseHistory()));
+                            },
+                            child: Text("История покупок"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
                           ),
                           width: 300,
                         ),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                keyFragmentBody.currentContext as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) => MyCoupons()));
-                          },
-                          child: Text("Мои купоны"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(
-                                0xFF, 0xB3, 0x19, 0x18); //#b31918
-                          })),
-                        ),
-                        width: 300,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            Navigator.push(
-                                keyFragmentBody.currentContext as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfileEdit()));
-                          },
-                          child: Text("Редактировать профиль"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  keyFragmentBody.currentContext
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserAgreement()));
+                            },
+                            child: Text("Соглашение об отказе чеков"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
+                          ),
+                          width: 300,
                         ),
-                        width: 300,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                keyFragmentBody.currentContext as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PersonalDataProtection()));
-                          },
-                          child: Text("Обработка перс. данных"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              var url = Uri.parse("https://hlebsol.taplink.ws");
+                              if (await canLaunchUrl(url)) await launchUrl(url);
+                            },
+                            child: Text("Обратная связь"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
+                          ),
+                          width: 300,
                         ),
-                        width: 300,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                keyFragmentBody.currentContext as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) => MyPurchaseHistory()));
-                          },
-                          child: Text("История покупок"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              WidgetsFlutterBinding.ensureInitialized();
+                              final database = openDatabase(
+                                  join(await getDatabasesPath(), 'tokens.db'),
+                                  version: 1, onCreate: (db, version) {
+                                return db.execute(
+                                  "create table token (uid text primary key);",
+                                );
+                              });
+                              final db = await database;
+                              db.execute("delete from token;");
+                              Navigator.pushAndRemoveUntil(
+                                  keyFragmentBody.currentState?.getContext()
+                                      as BuildContext,
+                                  MaterialPageRoute(
+                                    builder: (context) => Home(),
+                                  ),
+                                  (route) => true);
+                              keyNavBar.currentState?.getQueue().clear();
+                              keyNavBar.currentState?.widget
+                                  .updateTitle(screenTitles[Screen.Home]);
+                              keyNavBar.currentState!.selectItem(Screen.Home);
+                            },
+                            child: Text("Выйти"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
+                          ),
+                          width: 300,
                         ),
-                        width: 300,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                keyFragmentBody.currentContext as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) => UserAgreement()));
-                          },
-                          child: Text("Пользовательское соглашение"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
-                        ),
-                        width: 300,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            var url = Uri.parse("https://hlebsol.taplink.ws");
-                            if(await canLaunchUrl(url))
-                              await launchUrl(url);
-                          },
-                          child: Text("Обратная связь"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
-                        ),
-                        width: 300,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            WidgetsFlutterBinding.ensureInitialized();
-                            final database = openDatabase(
-                                join(await getDatabasesPath(), 'tokens.db'),
-                                version: 1, onCreate: (db, version) {
-                              return db.execute(
-                                "create table token (uid text primary key);",
-                              );
-                            });
-                            final db = await database;
-                            db.execute("delete from token;");
-                            Navigator.pushAndRemoveUntil(
-                                keyFragmentBody.currentState?.getContext()
-                                    as BuildContext,
-                                MaterialPageRoute(
-                                  builder: (context) => Home(),
-                                ),
-                                (route) => true);
-                            keyNavBar.currentState?.getQueue().clear();
-                            keyNavBar.currentState?.widget
-                                .updateTitle(screenTitles[Screen.Home]);
-                            keyNavBar.currentState!.selectItem(Screen.Home);
-                          },
-                          child: Text("Выйти"),
-                          style: ButtonStyle(backgroundColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                                  (Set<MaterialState> states) {
-                            return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-                          })),
-                        ),
-                        width: 300,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )]);
+                  ],
+                ),
+              )
+            ]);
           } else {
             return Center(
-                child: CircularProgressIndicator(
-                    color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
-              );
+              child: CircularProgressIndicator(
+                  color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
+            );
           }
         }));
   }

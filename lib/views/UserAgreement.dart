@@ -15,27 +15,27 @@ class UserAgreement extends StatelessWidget {
               ),
               backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
             ),
-            body: Center(
-              child: Text(
-                "Здесь должен быть текст пользовательского соглашения, но пока его нет:(",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            )),
+            body: Cancelation()),
         onWillPop: () async {
           return true;
         });
   }
 }
 
+class Cancelation extends StatelessWidget {
+  const Cancelation({Key? key}) : super(key: key);
 
-Container(
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Container(
           child: Text(
             "Правила при согласии на отказ от печати бумажных чеков",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           alignment: Alignment.center,
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
         ),
         Container(
           child: Text(
@@ -96,3 +96,7 @@ Container(
           ),
           padding: EdgeInsets.fromLTRB(30, 10, 10, 0),
         ),
+      ],
+    );
+  }
+}
