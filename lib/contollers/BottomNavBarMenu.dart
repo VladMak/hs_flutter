@@ -84,7 +84,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
         widget.updateTitle(screenTitles[Screen.Contacts]);
         break;
       case Screen.Cabinet:
-        Navigator.of(keyFragmentBody.currentState!.context).push(
+        Navigator.of(keyFragmentBody.currentState!.getContext()).push(
             PageRouteBuilder(
                 pageBuilder: (context, _, __) => ProgressItem(),
                 opaque: false));
@@ -92,7 +92,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
         var api = Api();
         var login = await api.checkToken();
 
-        Navigator.of(keyFragmentBody.currentState!.context).pop();
+        Navigator.of(keyFragmentBody.currentState!.getContext()).pop();
         if (widget._queue.isNotEmpty) {
           if (login) {
             Navigator.of(widget._queue.removeLast()).pushReplacement(

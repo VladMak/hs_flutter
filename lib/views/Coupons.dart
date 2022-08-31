@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/Api.dart';
 
 import '../main.dart';
 
@@ -40,14 +41,21 @@ import '../main.dart';
   }
 }*/
 
-class Coupons extends StatelessWidget {
+class Coupons extends StatefulWidget {
   const Coupons({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<Coupons> createState() => CouponsState();
+}
+
+class CouponsState extends State<Coupons> {
+  Api api = Api();
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
+    return /*Container(
       color: Colors.white,
       child: ListView(
         children: <Widget>[
@@ -62,29 +70,51 @@ class Coupons extends StatelessWidget {
           )
         ],
       ),
-    );
+    );*/
+
+        FutureBuilder<Widget>(
+            future: api.GetCoupons(true),
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data as Widget;
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                      color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
+                );
+              }
+            }));
   }
 }
 
-class MyCoupons extends StatelessWidget {
-  late List<CouponItem> myCoupons;
+class MyCoupons extends StatefulWidget {
+  @override
+  State<MyCoupons> createState() => MyCouponsState();
+}
 
-  MyCoupons({Key? key}) : super(key: key);
+class MyCouponsState extends State<MyCoupons> {
+  Api api = Api();
 
-  bool _loadMyCoupons() {
-    //TODO: реализовать код загрузки купонов
-    // myCoupons = ...
-    //
-
-    // Пока предполагаем, что купонов нет
-    return false;
+  Widget _loadMyCoupons() {
+    return FutureBuilder<Widget>(
+        future: api.GetCoupons(false),
+        builder: ((context, snapshot) {
+          if (snapshot.hasData) {
+            return snapshot.data as Widget;
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                  color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
+            );
+          }
+        }));
   }
 
   Widget _showMyCoupons(BuildContext context) {
-    if (_loadMyCoupons())
+    if (true)
       return ListView(children: <Widget>[
         Column(
-          children: myCoupons,
+          children: [],
         ),
       ]);
     else
@@ -167,7 +197,7 @@ class MyCoupons extends StatelessWidget {
             ),
             backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
           ),
-          body: _showMyCoupons(context),
+          body: _loadMyCoupons(),
         ),
         onWillPop: () async {
           return true;
