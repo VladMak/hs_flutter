@@ -48,6 +48,9 @@ dependencies:
   uuid: ^3.0.6
   mailer: ^5.2.0
   geolocator: ^9.0.1
+  flutter_map: ^2.2.0
+  latlong2: ^0.8.1
+  intro_slider: ^3.0.10
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +94,8 @@ flutter:
     - assets/bsmarker.png
     - assets/my_coupons.png
     - assets/my_purchasement.png
+    - assets/VK_Compact_Logo.png
+    - assets/Logo.png
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

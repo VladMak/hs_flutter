@@ -139,6 +139,17 @@ class VirtualCard extends State<Cabinet> {
                           alignment: Alignment.center,
                           child: SizedBox(
                             child: Text(
+                              "ФИО: ${jsonFromStr["secondname"]} ${jsonFromStr["firstname"]} ${jsonFromStr["surname"]}",
+                            ),
+                            width: 300,
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            child: Text(
                               "Номер: ${jsonFromStr["vuscard"]}",
                             ),
                             width: 300,
@@ -304,7 +315,9 @@ class VirtualCard extends State<Cabinet> {
                           child: ElevatedButton(
                             onPressed: () async {
                               var url = Uri.parse("https://hlebsol.taplink.ws");
-                              if (await canLaunchUrl(url)) await launchUrl(url);
+                              if (await canLaunchUrl(url))
+                                await launchUrl(url,
+                                    mode: LaunchMode.externalApplication);
                             },
                             child: Text("Обратная связь"),
                             style: ButtonStyle(backgroundColor:

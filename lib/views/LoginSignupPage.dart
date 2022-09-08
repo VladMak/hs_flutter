@@ -45,6 +45,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   late String _email;
   late String _password;
   late String _name;
+  late String _firstName;
+  late String _secondName;
+  late String _surname;
   String _errorMessage = "";
 
   // this will be used to identify the form to show
@@ -69,7 +72,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       ),*/
       body: Padding(
         padding: EdgeInsets.all(20),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             formWidget(),
             policy(),
@@ -117,6 +120,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       key: _formKey,
       child: Column(
         children: <Widget>[
+          _formMode != FormMode.LOGIN ? _FIOWidget() : Container(),
           _mobileNumWidget(),
           _emailWidget(),
           _passwordWidget(),
@@ -125,9 +129,53 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
+  Widget _FIOWidget() {
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: TextFieldItem(
+          focusColor: focusColor,
+          labelText: 'Фамилия',
+          icon: Icons.person,
+          keyboardType: TextInputType.phone,
+          onTap: () {},
+          onSave: (value) => _secondName = value.trim(),
+          onValidate: (value) =>
+              value.isEmpty ? 'Необходимо указать Вашу фамилию' : null,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: TextFieldItem(
+          focusColor: focusColor,
+          labelText: 'Имя',
+          icon: Icons.person,
+          keyboardType: TextInputType.phone,
+          onTap: () {},
+          onSave: (value) => _firstName = value.trim(),
+          onValidate: (value) =>
+              value.isEmpty ? 'Необходимо указать Ваше имя' : null,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: TextFieldItem(
+          focusColor: focusColor,
+          labelText: 'Отчество',
+          icon: Icons.person,
+          keyboardType: TextInputType.phone,
+          onTap: () {},
+          onSave: (value) => _surname = value.trim(),
+          onValidate: (value) =>
+              value.isEmpty ? 'Необходимо указать Ваше отчество' : null,
+        ),
+      )
+    ]);
+  }
+
   Widget _mobileNumWidget() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: TextFieldItem(
         focusColor: focusColor,
         labelText: 'Мобильный телефон',
@@ -287,7 +335,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           Api api = Api();
 
           var logged = await api.registration(
-              name: _name, email: _email, pswd: _password);
+              name: _name,
+              email: _email,
+              pswd: _password,
+              firstname: _firstName,
+              secondname: _secondName,
+              surname: _surname);
           print("LOGGED {$logged}");
           await _confirmCodeDialog(context);
           if (_textFieldController.text == logged) {

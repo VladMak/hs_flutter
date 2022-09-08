@@ -24,7 +24,10 @@ class Api {
   Future<String> registration(
       {String name = "Член",
       String email = "xyu@123",
-      String pswd = "sdf"}) async {
+      String pswd = "sdf",
+      String firstname = "",
+      String secondname = "",
+      String surname = ""}) async {
     // законнектились к локальному хранилищу токена
     WidgetsFlutterBinding.ensureInitialized();
     final database = openDatabase(join(await getDatabasesPath(), 'tokens.db'),
@@ -41,7 +44,7 @@ class Api {
     var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
 
     var newbody =
-        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "reg","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0}';
+        '{"token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns","id": "0","name": "$name","card": "0","email": "$email","password": "$pswd","enter": "reg","userToken": "0eedc517-da6d-4d28-bc6e-9e026d348a71","level": 0,"nextLevel": 0,"sumShop": 0.0,"countBonus": 0.0, "firstname": "$firstname", "secondname": "$secondname", "surname": "$surname"}';
     // делаем запрос к удаленному хосту, к бд там.
     var response = await http.post(url, body: newbody);
     print('Response status: ${response.statusCode}');
@@ -183,16 +186,59 @@ class Api {
     return response.body;
   }
 
+  Future<List<String>?> GetCouponsList(bool public) async {
+    var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
+
+    var newbody = '''{
+          "token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns",
+          "id": "0",
+          "name": "Vlad233",
+          "card": "0",
+          "email": "mavlsion@mail.ru",
+          "password": "testing",
+          "enter": "couponslist",
+          "userToken": "e98876cd-52a0-4117-87ef-6e61f9ae7422",
+          "level": 0,
+          "nextLevel": 0,
+          "sumShop": 0.0,
+          "countBonus": 0.0,
+          "firstname": "Vladislav",
+          "secondname": "Makarov",
+          "surname": "Alexandrovich"
+      }''';
+
+    print("REQUEST $newbody");
+    var response = await http.post(url, body: newbody);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode != 200) throw Exception("Ошибка");
+
+    List<String> data = List.from(jsonDecode(response.body));
+    return data;
+  }
+
   Future<Widget> GetCoupons(bool public) async {
     try {
       var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
 
-      var newbody = "";
-
-      if(public)
-        newbody = '{"your_action":"Gimme this public shit"}';
-      else
-        newbody = '{"your_action":"Gimme this personal shit"}';
+      var newbody = '''{
+          "token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns",
+          "id": "0",
+          "name": "Vlad233",
+          "card": "0",
+          "email": "mavlsion@mail.ru",
+          "password": "testing",
+          "enter": "couponslist",
+          "userToken": "e98876cd-52a0-4117-87ef-6e61f9ae7422",
+          "level": 0,
+          "nextLevel": 0,
+          "sumShop": 0.0,
+          "countBonus": 0.0,
+          "firstname": "Vladislav",
+          "secondname": "Makarov",
+          "surname": "Alexandrovich"
+      }''';
 
       print("REQUEST $newbody");
       var response = await http.post(url, body: newbody);
@@ -212,25 +258,31 @@ class Api {
         List<Widget> coupons = [];
 
         for (var coupon in data) {
-          coupons.add(Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: Image.network(
-              coupon["url"],
-              errorBuilder: (context, obj, trace) => Text("Купон не загружен"),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                    color: Colors.white,
-                    child: Center(
-                        child: Container(
-                            color: Colors.white,
-                            height: 45,
-                            width: 45,
-                            child: CircularProgressIndicator(
-                                color:
-                                    Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)))));
-              },
+          coupons.add(GestureDetector(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Image.network(
+                "https://smmon.slata.com/getOrder/" + "img/" + coupon,
+                errorBuilder: (context, obj, trace) =>
+                    Text("Купон не загружен"),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(
+                      color: Colors.white,
+                      child: Center(
+                          child: Container(
+                              color: Colors.white,
+                              height: 45,
+                              width: 45,
+                              child: CircularProgressIndicator(
+                                  color: Color.fromARGB(
+                                      0xFF, 0xB3, 0x19, 0x18)))));
+                },
+              ),
             ),
+            onTap: () {
+              print("Нажато $coupon");
+            },
           ));
         }
         return ListView(children: coupons);

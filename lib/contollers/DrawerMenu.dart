@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/ProgressItem.dart';
 import 'package:myapp/main.dart';
 import 'package:myapp/models/Api.dart';
+import 'package:myapp/views/Catalog.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Cabinet.dart';
@@ -11,6 +12,7 @@ import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
 import 'package:myapp/views/Shops.dart';
+import 'package:myapp/views/Map.dart';
 
 class DrawerMenu extends StatelessWidget {
   DrawerMenu(
@@ -94,11 +96,11 @@ class DrawerMenu extends StatelessWidget {
             onTap: () {
               if (_queue.isNotEmpty) {
                 Navigator.of(_queue.removeLast()).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Shops()));
+                    MaterialPageRoute(builder: (context) => Map()));
               } else {
                 Navigator.of(keyFragmentBody.currentState?.getContext()
                         as BuildContext)
-                    .push(MaterialPageRoute(builder: (context) => Shops()));
+                    .push(MaterialPageRoute(builder: (context) => Map()));
               }
               _queue.addLast(
                   keyFragmentBody.currentState?.getContext() as BuildContext);
@@ -167,6 +169,25 @@ class DrawerMenu extends StatelessWidget {
                 Navigator.of(keyFragmentBody.currentState?.getContext()
                         as BuildContext)
                     .push(MaterialPageRoute(builder: (context) => Contacts()));
+              }
+              _queue.addLast(
+                  keyFragmentBody.currentState?.getContext() as BuildContext);
+              Navigator.pop(context);
+              keyNavBar.currentState!.selectItem(Screen.Contacts);
+              updateTitle(screenTitles[Screen.Contacts]);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text("Каталог"),
+            onTap: () {
+              if (_queue.isNotEmpty) {
+                Navigator.of(_queue.removeLast()).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Catalog()));
+              } else {
+                Navigator.of(keyFragmentBody.currentState?.getContext()
+                        as BuildContext)
+                    .push(MaterialPageRoute(builder: (context) => Catalog()));
               }
               _queue.addLast(
                   keyFragmentBody.currentState?.getContext() as BuildContext);

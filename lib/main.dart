@@ -90,7 +90,8 @@ class _MainContainerState extends State<MainContainer> {
             updateTitle: _setAppBarTitle,
           ),
           // Контейнер, где будут показываться основные экраны
-          body: Fragment(key: keyFragmentBody),
+          //body: Fragment(key: keyFragmentBody),
+          body: Home(),
           // Нижний навбар
           bottomNavigationBar: BottomNavBarMenu(
             key: keyNavBar,

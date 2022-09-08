@@ -42,10 +42,25 @@ import 'package:url_launcher/url_launcher.dart';
   }
 }*/
 
+final Uri _url = Uri.parse('https://t.me/hleb_sol');
+final Uri _url2 = Uri.parse('https://vk.com/hlebsol38');
+
 class Contacts extends StatelessWidget {
   const Contacts({
     Key? key,
   }) : super(key: key);
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
+  Future<void> _launchUrl2() async {
+    if (!await launchUrl(_url2, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $_url2';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +122,39 @@ class Contacts extends StatelessWidget {
                         child: Text(
                           "Телефон: +7-395-248-08-01",
                         ),
+                        width: 300,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Row(children: [
+                          GestureDetector(
+                            child: Image(
+                                image: AssetImage("assets/Logo.png"),
+                                width: 40),
+                            onTap: _launchUrl,
+                          )
+                        ]),
+                        width: 300,
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        child: Row(children: [
+                          GestureDetector(
+                            child: Image(
+                              image: AssetImage("assets/VK_Compact_Logo.png"),
+                              width: 40,
+                            ),
+                            onTap: _launchUrl2,
+                          )
+                        ]),
                         width: 300,
                       ),
                     )),
