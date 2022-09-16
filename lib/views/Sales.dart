@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/domain/App.dart';
 
 /*class Sales extends StatelessWidget {
   const Sales({Key? key}) : super(key: key);
@@ -48,21 +49,42 @@ class Sales extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ListView(
-        children: <Widget>[
-          Column(
-            children: [
-              CouponItem(),
-              CouponItem2(),
-              CouponItem3(),
-              CouponItem(),
-              CouponItem2()
+    RouteSettings settings = ModalRoute.of(context)!.settings;
+    App app = settings.arguments as App;
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Акции",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+        ),
+        // Боковое меню
+        drawer: DrawerMenu(),
+        // Контейнер, где будут показываться основные экраны
+        //body: Fragment(key: keyFragmentBody),
+        body: Container(
+          color: Colors.white,
+          child: ListView(
+            children: <Widget>[
+              Column(
+                children: [
+                  CouponItem(),
+                  CouponItem2(),
+                  CouponItem3(),
+                  CouponItem(),
+                  CouponItem2()
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
+        // Нижний навбар
+        bottomNavigationBar: BottomNavBarMenu(),
       ),
+      routes: app.Routes,
     );
   }
 }

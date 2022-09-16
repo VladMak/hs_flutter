@@ -6,8 +6,12 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/contollers/DrawerMenu.dart';
+import 'package:myapp/domain/App.dart';
 import 'package:myapp/models/Shop.dart';
 import 'package:myapp/models/ShopsCollection.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Map extends StatelessWidget {
   late Geolocator _geolocator;
@@ -47,6 +51,7 @@ class Map extends StatelessWidget {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
+      Geolocator.openLocationSettings();
       return Future.error('Location services are disabled.');
     }
 
@@ -74,44 +79,79 @@ class Map extends StatelessWidget {
     return await Geolocator.getCurrentPosition();
   }
 
+  Future<void> f() async {
+    /*await Permission.location.request();
+    var status = await Permission.location.status;
+
+    if (await Permission.location.serviceStatus.isDisabled) {
+      openAppSettings();
+    }
+    print(status.isDenied);*/
+  }
+
   @override
   Widget build(BuildContext context) {
     //var l = this._coordinates();
-    return FutureBuilder(
-        future: _coordinates(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var l = snapshot.data as Shop;
-            print("COORD: ${l.coordinates.latitude}");
-            return new FlutterMap(
-              options: new MapOptions(
-                center:
-                    new LatLng(l.coordinates.latitude, l.coordinates.longitude),
-                zoom: 16.0,
-              ),
-              layers: [
-                new TileLayerOptions(
-                  urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                ),
-                new MarkerLayerOptions(
-                  markers: getMarkers(),
-                ),
-              ],
-            );
-          } else
-            _geolocator = Geolocator();
-          return Container(
-            child: Container(
-                width: 60,
-                height: 50,
-                child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                )),
-            width: 10,
-            height: 10,
-            padding: EdgeInsets.fromLTRB(100, 200, 100, 200),
-          );
-        });
+    RouteSettings settings = ModalRoute.of(context)!.settings;
+    App app = settings.arguments as App;
+
+    this.f();
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Магазины",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+        ),
+        // Боковое меню
+        drawer: DrawerMenu(),
+        // Контейнер, где будут показываться основные экраны
+        //body: Fragment(key: keyFragmentBody),
+        body: FutureBuilder(
+            future: _coordinates(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var l = snapshot.data as Shop;
+                print("COORD: ${l.coordinates.latitude}");
+                return new FlutterMap(
+                  options: new MapOptions(
+                    center: new LatLng(
+                        l.coordinates.latitude, l.coordinates.longitude),
+                    zoom: 16.0,
+                  ),
+                  layers: [
+                    new TileLayerOptions(
+                      urlTemplate:
+                          "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    ),
+                    new MarkerLayerOptions(
+                      markers: getMarkers(),
+                    ),
+                  ],
+                );
+              } else
+                _geolocator = Geolocator();
+              return Container(
+                child: Container(
+                    width: 60,
+                    height: 50,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 10,
+                    )),
+                width: 10,
+                height: 10,
+                padding: EdgeInsets.fromLTRB(100, 200, 100, 200),
+              );
+            }),
+        // Нижний навбар
+        bottomNavigationBar: BottomNavBarMenu(),
+      ),
+      routes: app.Routes,
+    );
   }
 }
 

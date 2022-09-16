@@ -24,15 +24,6 @@ String? validateEmail(value) {
 }
 
 class LoginSignupPage extends StatefulWidget {
-  LoginSignupPage(
-      {Key? key,
-      required Queue<BuildContext> this.queue,
-      required this.updateTitle})
-      : super(key: key);
-
-  Queue<BuildContext> queue;
-  final ValueChanged<String?> updateTitle;
-
   @override
   State<StatefulWidget> createState() => new _LoginSignupPageState();
 }
@@ -237,7 +228,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget secondaryButton() {
-    return new FlatButton(
+    return new ElevatedButton(
       child: _formMode == FormMode.LOGIN
           ? new Text('Создать аккаунт',
               style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500))
@@ -304,11 +295,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
               await api.login(name: _name, email: _email, pswd: _password);
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
-            Navigator.of(widget.queue.removeLast()).pushReplacement(
-                MaterialPageRoute(builder: (context) => Cabinet()));
-            widget.queue.addLast(
-                keyFragmentBody.currentState?.getContext() as BuildContext);
-            widget.updateTitle(screenTitles[Screen.Cabinet]);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/cabinet', (route) => false);
           } else {
             // СЮДА не успешный ввод пароля
             showDialog<String>(
@@ -345,11 +333,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           await _confirmCodeDialog(context);
           if (_textFieldController.text == logged) {
             // Коды совпали
-            Navigator.of(widget.queue.removeLast()).pushReplacement(
-                MaterialPageRoute(builder: (context) => Cabinet()));
-            widget.queue.addLast(
-                keyFragmentBody.currentState?.getContext() as BuildContext);
-            widget.updateTitle(screenTitles[Screen.Cabinet]);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/cabinet', (route) => false);
 
             setState(() {
               _isLoading = false;
@@ -419,13 +404,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             decoration: InputDecoration(hintText: "Введите код подтверждения"),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text('Отмена'),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
+            ElevatedButton(
               child: Text('Подтвердить'),
               onPressed: () {
                 print(_textFieldController.text);

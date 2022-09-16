@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/domain/App.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:flutter/widgets.dart';
@@ -218,7 +219,7 @@ class Api {
     return data;
   }
 
-  Future<Widget> GetCoupons(bool public) async {
+  Future<Widget> GetCoupons(BuildContext context, App app) async {
     try {
       var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
 
@@ -281,7 +282,11 @@ class Api {
               ),
             ),
             onTap: () {
-              print("Нажато $coupon");
+              print("TAPPED: $coupon");
+              app.CouponId = coupon;
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/couponItem', (route) => false,
+                  arguments: app);
             },
           ));
         }

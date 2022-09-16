@@ -66,17 +66,8 @@ class MyPurchaseHistory extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(keyNavBar.currentState?.getQueue().removeLast()
-                            as BuildContext)
-                        .pushReplacement(
-                            MaterialPageRoute(builder: (context) => Sales()));
-                    keyNavBar.currentState?.getQueue().addLast(
-                        keyFragmentBody.currentState?.getContext()
-                            as BuildContext);
-                    keyNavBar.currentState?.selectItem(Screen.Sales);
-                    keyNavBar.currentState?.widget
-                        .updateTitle(screenTitles[Screen.Sales]);
-                    Navigator.pop(context);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/sales', (route) => false);
                   },
                   child: Text("Перейти к акциям"),
                   style: ButtonStyle(backgroundColor:

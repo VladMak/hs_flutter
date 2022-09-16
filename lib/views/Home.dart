@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/domain/App.dart';
 import 'package:myapp/models/Mailer.dart';
 import 'package:myapp/models/Shop.dart';
 import 'package:myapp/models/ShopsCollection.dart';
@@ -64,24 +65,42 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  
-
   @override
-  Container build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ListView(
-        padding: EdgeInsets.all(8),
-        children: <Widget>[
-          Column(
-            children: [
-              CarouselSales(),
-              Text("Каталог"),
-              CatalogView(),
+  Widget build(BuildContext context) {
+    var app = new App();
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Хлеб Соль",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+        ),
+        // Боковое меню
+        drawer: DrawerMenu(),
+        // Контейнер, где будут показываться основные экраны
+        //body: Fragment(key: keyFragmentBody),
+        body: Container(
+          color: Colors.white,
+          child: ListView(
+            padding: EdgeInsets.all(8),
+            children: <Widget>[
+              Column(
+                children: [
+                  CarouselSales(),
+                  Text("Каталог"),
+                  CatalogView(),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
+        // Нижний навбар
+        bottomNavigationBar: BottomNavBarMenu(),
       ),
+      routes: app.Routes,
     );
   }
 }

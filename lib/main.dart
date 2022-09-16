@@ -4,9 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
+import 'package:myapp/domain/App.dart';
+import 'package:myapp/views/Contacts.dart';
+import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/Fragment.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Cabinet.dart';
+import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
 
 // Основные экраны
@@ -64,40 +68,6 @@ class _MainContainerState extends State<MainContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        // Обработка перехода назад
-        onWillPop: () async {
-          if (_queue.isNotEmpty) {
-            Navigator.of(_queue.removeLast()).pop();
-            keyNavBar.currentState?.selectItem(Screen.Home);
-            _setAppBarTitle(screenTitles[Screen.Home]);
-            return false;
-          }
-          return true;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.black),
-            title: Text(
-              appBarTitle!,
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-          ),
-          // Боковое меню
-          drawer: DrawerMenu(
-            queue: _queue,
-            updateTitle: _setAppBarTitle,
-          ),
-          // Контейнер, где будут показываться основные экраны
-          //body: Fragment(key: keyFragmentBody),
-          body: Home(),
-          // Нижний навбар
-          bottomNavigationBar: BottomNavBarMenu(
-            key: keyNavBar,
-            queue: _queue,
-            updateTitle: _setAppBarTitle,
-          ),
-        ));
+    return Home();
   }
 }

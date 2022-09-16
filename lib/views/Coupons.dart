@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/contollers/DrawerMenu.dart';
+import 'package:myapp/domain/App.dart';
 import 'package:myapp/models/Api.dart';
+import 'package:myapp/views/Home.dart';
 
 import '../main.dart';
 
@@ -52,28 +56,28 @@ class Coupons extends StatefulWidget {
 
 class CouponsState extends State<Coupons> {
   Api api = Api();
+  late App app;
 
   @override
   Widget build(BuildContext context) {
-    return /*Container(
-      color: Colors.white,
-      child: ListView(
-        children: <Widget>[
-          Column(
-            children: [
-              CouponItem(),
-              CouponItem2(),
-              CouponItem3(),
-              CouponItem(),
-              CouponItem2()
-            ],
-          )
-        ],
-      ),
-    );*/
-
-        FutureBuilder<Widget>(
-            future: api.GetCoupons(true),
+    RouteSettings settings = ModalRoute.of(context)!.settings;
+    app = settings.arguments as App;
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Купоны",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+        ),
+        // Боковое меню
+        drawer: DrawerMenu(),
+        // Контейнер, где будут показываться основные экраны
+        //body: Fragment(key: keyFragmentBody),
+        body: FutureBuilder<Widget>(
+            future: api.GetCoupons(context, app),
             builder: ((context, snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data as Widget;
@@ -83,7 +87,12 @@ class CouponsState extends State<Coupons> {
                       color: Color.fromARGB(0xFF, 0xB3, 0x19, 0x18)),
                 );
               }
-            }));
+            })),
+        // Нижний навбар
+        bottomNavigationBar: BottomNavBarMenu(),
+      ),
+      routes: app.Routes,
+    );
   }
 }
 
@@ -94,10 +103,13 @@ class MyCoupons extends StatefulWidget {
 
 class MyCouponsState extends State<MyCoupons> {
   Api api = Api();
+  late App app;
 
-  Widget _loadMyCoupons() {
+  Widget _loadMyCoupons(BuildContext context) {
+    RouteSettings settings = ModalRoute.of(context)!.settings;
+    app = settings.arguments as App;
     return FutureBuilder<Widget>(
-        future: api.GetCoupons(false),
+        future: api.GetCoupons(context, app),
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data as Widget;
@@ -158,19 +170,7 @@ class MyCouponsState extends State<MyCoupons> {
                   height: 10,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(keyNavBar.currentState?.getQueue().removeLast()
-                            as BuildContext)
-                        .pushReplacement(
-                            MaterialPageRoute(builder: (context) => Coupons()));
-                    keyNavBar.currentState?.getQueue().addLast(
-                        keyFragmentBody.currentState?.getContext()
-                            as BuildContext);
-                    keyNavBar.currentState?.selectItem(Screen.Home);
-                    keyNavBar.currentState?.widget
-                        .updateTitle(screenTitles[Screen.Coupons]);
-                    Navigator.pop(context);
-                  },
+                  onPressed: () {},
                   child: Text("Перейти к купонам"),
                   style: ButtonStyle(backgroundColor:
                       MaterialStateProperty.resolveWith<Color?>(
@@ -197,7 +197,7 @@ class MyCouponsState extends State<MyCoupons> {
             ),
             backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
           ),
-          body: _loadMyCoupons(),
+          body: _loadMyCoupons(context),
         ),
         onWillPop: () async {
           return true;
