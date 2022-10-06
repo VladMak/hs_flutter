@@ -5,44 +5,6 @@ import 'package:myapp/domain/App.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/*class Contacts extends StatelessWidget {
-  const Contacts({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "Контакты",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-      ),
-      drawer: DrawerMenu(),
-      body: ContactsView(),
-      //bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}*/
-
 final Uri _url = Uri.parse('https://t.me/hleb_sol');
 final Uri _url2 = Uri.parse('https://vk.com/hlebsol38');
 

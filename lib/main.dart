@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/domain/App.dart';
+import 'package:myapp/models/Api.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/Fragment.dart';
@@ -66,8 +67,33 @@ class _MainContainerState extends State<MainContainer> {
     });
   }
 
+  Future<bool> CheckToken() async {
+    var api = Api();
+    var login = await api.checkToken();
+    if (login) {
+      return true; // cabinet
+    } else {
+      return false; // login
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: CheckToken(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var data = snapshot.data as bool;
+            print("TUTTTTT ${data}");
+            if (!data) {
+              return LoginSignupPage();
+            } else {
+              return Cabinet();
+            }
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
     return Home();
   }
 }

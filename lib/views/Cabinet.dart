@@ -20,67 +20,10 @@ import 'dart:async';
 
 import '../models/Api.dart';
 
-/*class Cabinet extends StatefulWidget {
-  const Cabinet({Key? key}) : super(key: key);
-
-  @override
-  State<Cabinet> createState() => _CabinetState();
-}
-
-class _CabinetState extends State<Cabinet> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "Кабинет",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-      ),
-      drawer: DrawerMenu(),
-      body: CabinetView(),
-      //bottomNavigationBar: BottomNavBarMenu(),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
-        child: SizedBox(
-          width: 80,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: Image(
-              image: AssetImage('assets/virtcard.png'),
-            ),
-            backgroundColor: Colors.white.withOpacity(0),
-            elevation: 0,
-            hoverColor: Colors.white.withOpacity(0),
-            hoverElevation: 0,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}*/
-
 class Cabinet extends StatefulWidget {
   const Cabinet({
     Key? key,
   }) : super(key: key);
-
-  /*@override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ListView(
-        children: <Widget>[
-          Column(
-            children: [VirtualCard()],
-          )
-        ],
-      ),
-    );
-  }*/
 
   @override
   State<Cabinet> createState() {
@@ -101,7 +44,12 @@ class VirtualCard extends State<Cabinet> {
   @override
   Widget build(BuildContext context) {
     RouteSettings settings = ModalRoute.of(context)!.settings;
-    App app = settings.arguments as App;
+    App app;
+    if (settings.arguments == null) {
+      app = new App();
+    } else {
+      app = settings.arguments as App;
+    }
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -261,6 +209,9 @@ class VirtualCard extends State<Cabinet> {
                             child: SizedBox(
                               child: ElevatedButton(
                                 onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, "/personalDataProtection",
+                                      arguments: app);
                                   Navigator.push(
                                       keyFragmentBody.currentContext
                                           as BuildContext,
@@ -311,12 +262,8 @@ class VirtualCard extends State<Cabinet> {
                             child: SizedBox(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      keyFragmentBody.currentContext
-                                          as BuildContext,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              UserAgreement()));
+                                  Navigator.pushNamed(
+                                      context, "/userAgreement");
                                 },
                                 child: Text("Соглашение об отказе чеков"),
                                 style: ButtonStyle(backgroundColor:

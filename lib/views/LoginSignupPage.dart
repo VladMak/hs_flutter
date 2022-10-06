@@ -1,12 +1,17 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/contollers/BottomNavBarMenu.dart';
+import 'package:myapp/contollers/DrawerMenu.dart';
+import 'package:myapp/domain/App.dart';
 import 'package:myapp/views/PersonalDataProtection.dart';
 
 import '../main.dart';
 import '../models/Api.dart';
 import '../models/CustomTextFields.dart';
 import 'Cabinet.dart';
+
+var app = new App();
 
 String? validateEmail(value) {
   var regemail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -52,8 +57,16 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      /*appBar: new AppBar(
+    RouteSettings settings = ModalRoute.of(context)!.settings;
+    App app;
+    if (settings.arguments == null) {
+      app = new App();
+    } else {
+      app = settings.arguments as App;
+    }
+    return MaterialApp(
+      home: Scaffold(
+        /*appBar: new AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: new Text(
           "Вход в Хлеб-Соль",
@@ -61,19 +74,32 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         ),
         backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
       ),*/
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: ListView(
-          children: <Widget>[
-            formWidget(),
-            policy(),
-            loginButtonWidget(),
-            secondaryButton(),
-            errorWidget(),
-            progressWidget()
-          ],
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Кабинет",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
+        // Боковое меню
+        //drawer: DrawerMenu(),
+        body: Padding(
+          padding: EdgeInsets.all(20),
+          child: ListView(
+            children: <Widget>[
+              formWidget(),
+              policy(),
+              loginButtonWidget(),
+              secondaryButton(),
+              errorWidget(),
+              progressWidget()
+            ],
+          ),
+        ),
+        //bottomNavigationBar: BottomNavBarMenu(),
       ),
+      routes: app.Routes,
     );
   }
 
@@ -85,10 +111,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             GestureDetector(
               child: Text("Я принимаю политику конфиденциальности"),
               onTap: () {
-                Navigator.push(
-                    keyFragmentBody.currentContext as BuildContext,
-                    MaterialPageRoute(
-                        builder: (context) => PersonalDataProtection()));
+                Route route = MaterialPageRoute(
+                    builder: (context) => PersonalDataProtection());
+                Navigator.push(context, route);
               },
             )
           ]);
@@ -128,7 +153,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           focusColor: focusColor,
           labelText: 'Фамилия',
           icon: Icons.person,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.name,
           onTap: () {},
           onSave: (value) => _secondName = value.trim(),
           onValidate: (value) =>
@@ -141,7 +166,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           focusColor: focusColor,
           labelText: 'Имя',
           icon: Icons.person,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.name,
           onTap: () {},
           onSave: (value) => _firstName = value.trim(),
           onValidate: (value) =>
@@ -154,7 +179,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           focusColor: focusColor,
           labelText: 'Отчество',
           icon: Icons.person,
-          keyboardType: TextInputType.phone,
+          keyboardType: TextInputType.name,
           onTap: () {},
           onSave: (value) => _surname = value.trim(),
           onValidate: (value) =>
@@ -293,10 +318,12 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           Api api = Api();
           var logged =
               await api.login(name: _name, email: _email, pswd: _password);
+          print("SDFSDFSDF");
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
             Navigator.pushNamedAndRemoveUntil(
-                context, '/cabinet', (route) => false);
+                context, '/cabinet', (route) => false,
+                arguments: app);
           } else {
             // СЮДА не успешный ввод пароля
             showDialog<String>(

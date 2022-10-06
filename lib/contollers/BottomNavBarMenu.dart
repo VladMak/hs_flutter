@@ -34,7 +34,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
     });
   }
 
-  void navigate(int index, BuildContext context, App app) {
+  void navigate(int index, BuildContext context, App app) async {
     switch (index) {
       case 0:
         Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false,
@@ -50,8 +50,18 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
             arguments: app);
         break;
       case 3:
-        Navigator.pushNamedAndRemoveUntil(context, "/cabinet", (route) => false,
-            arguments: app);
+        var api = Api();
+        var login = await api.checkToken();
+
+        if (login) {
+          print("JOPA");
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/cabinet', (route) => false,
+              arguments: app);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false,
+              arguments: app);
+        }
         break;
       default:
     }
@@ -62,26 +72,19 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
     var app = new App();
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
+      backgroundColor: Color.fromARGB(255, 229, 229, 229),
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
+            icon: Image(image: AssetImage("assets/icons/_-01.png"), width: 35),
             label: "Главная"),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-            ),
+            icon: Image(image: AssetImage("assets/icons/_-09.png"), width: 35),
             label: "Поиск"),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.info,
-            ),
+            icon: Image(image: AssetImage("assets/icons/_-08.png"), width: 35),
             label: "Информация"),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
+            icon: Image(image: AssetImage("assets/icons/_-05.png"), width: 35),
             label: "Кабинет"),
       ],
       selectedItemColor: Colors.black, //Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),

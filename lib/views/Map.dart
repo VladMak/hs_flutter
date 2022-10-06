@@ -47,12 +47,14 @@ class Map extends StatelessWidget {
 
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
+    while (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
       Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
+      await Future.delayed(Duration(seconds: 5));
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      //return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
@@ -94,6 +96,7 @@ class Map extends StatelessWidget {
     //var l = this._coordinates();
     RouteSettings settings = ModalRoute.of(context)!.settings;
     App app = settings.arguments as App;
+    _geolocator = Geolocator();
 
     this.f();
 
@@ -115,6 +118,7 @@ class Map extends StatelessWidget {
             future: _coordinates(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                print("SDDD ${snapshot.hasData}");
                 var l = snapshot.data as Shop;
                 print("COORD: ${l.coordinates.latitude}");
                 return new FlutterMap(
@@ -134,18 +138,17 @@ class Map extends StatelessWidget {
                   ],
                 );
               } else
-                _geolocator = Geolocator();
-              return Container(
-                child: Container(
-                    width: 60,
-                    height: 50,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 10,
-                    )),
-                width: 10,
-                height: 10,
-                padding: EdgeInsets.fromLTRB(100, 200, 100, 200),
-              );
+                return Container(
+                  child: Container(
+                      width: 60,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 10,
+                      )),
+                  width: 10,
+                  height: 10,
+                  padding: EdgeInsets.fromLTRB(100, 200, 100, 200),
+                );
             }),
         // Нижний навбар
         bottomNavigationBar: BottomNavBarMenu(),

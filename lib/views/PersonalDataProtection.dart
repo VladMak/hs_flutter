@@ -6,20 +6,16 @@ class PersonalDataProtection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        child: Scaffold(
-            appBar: AppBar(
-              iconTheme: IconThemeData(color: Colors.black),
-              title: Text(
-                "Защита персональных данных",
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ),
-              backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-            ),
-            body: Policy()),
-        onWillPop: () async {
-          return true;
-        });
+    return Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            "Защита персональных данных",
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+          backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
+        ),
+        body: Policy());
   }
 }
 

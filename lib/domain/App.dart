@@ -6,8 +6,10 @@ import 'package:myapp/views/CouponItem.dart';
 import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
+import 'package:myapp/views/PersonalDataProtection.dart';
 import 'package:myapp/views/Sales.dart';
 import 'package:myapp/views/Map.dart' as M;
+import 'package:myapp/views/UserAgreement.dart';
 
 class App {
   Map<String, Widget Function(BuildContext)> Routes = {
@@ -19,7 +21,9 @@ class App {
     '/promotion': (context) => Sales(),
     '/shop': (context) => M.Map(),
     '/catalog': (context) => Catalog(),
-    '/couponItem': (context) => CouponElement()
+    '/couponItem': (context) => CouponElement(),
+    '/personalDataProtection': (context) => PersonalDataProtection(),
+    '/userAgreement': (context) => UserAgreement()
   };
   String CouponId = "";
 }

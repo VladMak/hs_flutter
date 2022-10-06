@@ -71,10 +71,39 @@ class HomeState extends State<Home> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                iconSize: 500.0,
+                icon: Image(
+                  image: AssetImage('assets/icons/_-12.png'),
+                  width: 500,
+                  height: 500,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              );
+            },
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
-            "Хлеб Соль",
-            style: TextStyle(color: Colors.black),
+            "ХЛЕБ СОЛЬ",
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFE51D08),
+                    const Color(0xFFf2b11a),
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
           ),
           backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
