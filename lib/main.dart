@@ -58,7 +58,7 @@ class _MainContainerState extends State<MainContainer> {
   Queue<BuildContext> _queue = Queue();
 
   // Поле для хранения названия текущего экрана
-  String? appBarTitle = screenTitles[Screen.Home];
+  String? appBarTitle = "Главная";
 
   // Метод для обновления названия текущего экрана
   void _setAppBarTitle(String? title) {

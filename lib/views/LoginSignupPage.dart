@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/domain/App.dart';
+import 'package:myapp/views/ForgotPassword.dart';
 import 'package:myapp/views/PersonalDataProtection.dart';
 
 import '../main.dart';
 import '../models/Api.dart';
 import '../models/CustomTextFields.dart';
 import 'Cabinet.dart';
-
-var app = new App();
 
 String? validateEmail(value) {
   var regemail = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -66,40 +65,67 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     }
     return MaterialApp(
       home: Scaffold(
-        /*appBar: new AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        title: new Text(
-          "Вход в Хлеб-Соль",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
-      ),*/
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            Container(
+              child: Image(image: AssetImage("assets/logo.png")),
+              padding: EdgeInsets.all(5),
+            )
+          ],
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
-            "Кабинет",
-            style: TextStyle(color: Colors.black),
+            "Вход",
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFE51D08),
+                    const Color(0xFFf2b11a),
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
           ),
           backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
-        // Боковое меню
-        //drawer: DrawerMenu(),
         body: Padding(
           padding: EdgeInsets.all(20),
           child: ListView(
             children: <Widget>[
               formWidget(),
               policy(),
-              loginButtonWidget(),
+              loginButtonWidget(app),
               secondaryButton(),
+              forgotPassword(),
               errorWidget(),
               progressWidget()
             ],
           ),
         ),
-        //bottomNavigationBar: BottomNavBarMenu(),
       ),
       routes: app.Routes,
+    );
+  }
+
+  // Возвращает кнопку с текстом Забыл пароль
+  Widget forgotPassword() {
+    return ElevatedButton(
+      onPressed: () {
+        Route route = MaterialPageRoute(
+          builder: (context) => ForgotPassword(),
+        );
+        Navigator.push(context, route);
+      },
+      child: Text(
+        "Забыл пароль",
+        style: TextStyle(color: Colors.black),
+      ),
+      style: ElevatedButton.styleFrom(
+          primary: Color.fromARGB(1, 0, 0, 0), elevation: 0),
     );
   }
 
@@ -198,7 +224,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         icon: Icons.phone_android,
         keyboardType: TextInputType.phone,
         onTap: () {},
-        onSave: (value) => _name = value.trim(),
+        onSave: (value) => _name = value.trim().toLowerCase(),
         onValidate: (value) =>
             value.isEmpty ? 'Необходимо указать рабочий номер телефона' : null,
       ),
@@ -235,7 +261,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
     );
   }
 
-  Widget loginButtonWidget() {
+  Widget loginButtonWidget(App app) {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
         child: new MaterialButton(
@@ -318,12 +344,10 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           Api api = Api();
           var logged =
               await api.login(name: _name, email: _email, pswd: _password);
-          print("SDFSDFSDF");
           if (logged) {
             // СЮДА в случае успешного входа, перекинуть на главную страницу, или на Кабинет
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/cabinet', (route) => false,
-                arguments: app);
+            Route route = MaterialPageRoute(builder: ((context) => Cabinet()));
+            Navigator.pushAndRemoveUntil(context, route, (route) => false);
           } else {
             // СЮДА не успешный ввод пароля
             showDialog<String>(

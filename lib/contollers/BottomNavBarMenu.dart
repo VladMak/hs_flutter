@@ -37,17 +37,13 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
   void navigate(int index, BuildContext context, App app) async {
     switch (index) {
       case 0:
-        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false,
-            arguments: app);
+        Navigator.pushNamed(context, "/home", arguments: app);
         break;
       case 1:
-        Navigator.pushNamedAndRemoveUntil(context, "/shop", (route) => false,
-            arguments: app);
+        Navigator.pushNamed(context, "/shop", arguments: app);
         break;
       case 2:
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/contacts", (route) => false,
-            arguments: app);
+        Navigator.pushNamed(context, "/contacts", arguments: app);
         break;
       case 3:
         var api = Api();
@@ -55,12 +51,9 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
 
         if (login) {
           print("JOPA");
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/cabinet', (route) => false,
-              arguments: app);
+          Navigator.pushNamed(context, '/cabinet', arguments: app);
         } else {
-          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false,
-              arguments: app);
+          Navigator.pushNamed(context, '/login', arguments: app);
         }
         break;
       default:
@@ -81,7 +74,7 @@ class BottomNavBarMenuState extends State<BottomNavBarMenu> {
             icon: Image(image: AssetImage("assets/icons/_-09.png"), width: 35),
             label: "Поиск"),
         BottomNavigationBarItem(
-            icon: Image(image: AssetImage("assets/icons/_-08.png"), width: 35),
+            icon: Image(image: AssetImage("assets/icons/_-06.png"), width: 35),
             label: "Информация"),
         BottomNavigationBarItem(
             icon: Image(image: AssetImage("assets/icons/_-05.png"), width: 35),

@@ -70,23 +70,37 @@ class HomeState extends State<Home> {
     var app = new App();
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: Container(
+            width: 100,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 45),
+            child: FloatingActionButton(
+              child: Image(
+                image: AssetImage("assets/virtcard.png"),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, "/cabinet");
+              },
+              backgroundColor: Color.fromARGB(0, 0, 0, 0),
+              elevation: 0,
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                iconSize: 500.0,
-                icon: Image(
-                  image: AssetImage('assets/icons/_-12.png'),
-                  width: 500,
-                  height: 500,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-              );
-            },
-          ),
+          actions: [
+            Container(
+              child: Image(image: AssetImage("assets/logo.png")),
+              padding: EdgeInsets.all(5),
+            )
+          ],
+          leading: Builder(builder: (context) {
+            return GestureDetector(
+              child: Image(
+                image: AssetImage('assets/icons/_-12.png'),
+              ),
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
           iconTheme: IconThemeData(color: Colors.white),
           title: Text(
             "ХЛЕБ СОЛЬ",
@@ -114,7 +128,7 @@ class HomeState extends State<Home> {
         body: Container(
           color: Colors.white,
           child: ListView(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(0),
             children: <Widget>[
               Column(
                 children: [

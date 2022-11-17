@@ -52,6 +52,7 @@ dependencies:
   latlong2: ^0.8.1
   intro_slider: ^3.0.10
   permission_handler: ^10.0.0
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,7 @@ flutter:
     - assets/icons/_-12.png
     - assets/icons/_-13.png
     - assets/icons/_-14.png
+    - assets/logo.png
     - assets/01/_-2.png
     - assets/01/_-5.png
     - assets/01/_-11.png

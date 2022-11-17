@@ -11,6 +11,7 @@ import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
+import 'package:myapp/views/Map2.dart';
 import 'package:myapp/views/Sales.dart';
 import 'package:myapp/views/Shops.dart';
 import 'package:myapp/views/Map.dart';
@@ -44,11 +45,29 @@ class DrawerMenu extends StatelessWidget {
               child: ListTile(
                 leading: Image(
                     image: AssetImage("assets/icons/_-01.png"), width: 50),
+                title: Text("MAP WebView"),
+                onTap: () {
+                  Route route =
+                      MaterialPageRoute(builder: ((context) => Map2()));
+                  Navigator.push(context, route);
+                },
+              ),
+            ),
+            Container(
+              decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: Border(
+                    bottom: BorderSide(
+                        color: Color.fromARGB(100, 0, 0, 0), width: 1.0),
+                    left: BorderSide(color: Colors.white, width: 1.0),
+                    right: BorderSide(color: Colors.white, width: 1.0),
+                  )),
+              child: ListTile(
+                leading: Image(
+                    image: AssetImage("assets/icons/_-01.png"), width: 50),
                 title: Text("Главная"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (route) => false,
-                      arguments: app);
+                  Navigator.popAndPushNamed(context, '/home', arguments: app);
                 },
               ),
             ),
@@ -66,8 +85,7 @@ class DrawerMenu extends StatelessWidget {
                     image: AssetImage("assets/icons/_-02.png"), width: 50),
                 title: Text("Купоны"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/coupons', (route) => false,
+                  Navigator.popAndPushNamed(context, '/coupons',
                       arguments: app);
                 },
               ),
@@ -86,8 +104,7 @@ class DrawerMenu extends StatelessWidget {
                     image: AssetImage("assets/icons/_-03.png"), width: 50),
                 title: Text("Акции"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/promotion', (route) => false,
+                  Navigator.popAndPushNamed(context, '/promotion',
                       arguments: app);
                 },
               ),
@@ -106,9 +123,7 @@ class DrawerMenu extends StatelessWidget {
                     image: AssetImage("assets/icons/_-07.png"), width: 50),
                 title: Text("Магазины"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/shop', (route) => false,
-                      arguments: app);
+                  Navigator.popAndPushNamed(context, '/shop', arguments: app);
                 },
               ),
             ),
@@ -130,12 +145,10 @@ class DrawerMenu extends StatelessWidget {
                   var login = await api.checkToken();
 
                   if (login) {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/cabinet', (route) => false,
+                    Navigator.popAndPushNamed(context, '/cabinet',
                         arguments: app);
                   } else {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/login', (route) => false,
+                    Navigator.popAndPushNamed(context, '/login',
                         arguments: app);
                   }
                 },
@@ -155,8 +168,7 @@ class DrawerMenu extends StatelessWidget {
                     image: AssetImage("assets/icons/_-06.png"), width: 50),
                 title: Text("Контакты"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/contacts', (route) => false,
+                  Navigator.popAndPushNamed(context, '/contacts',
                       arguments: app);
                 },
               ),
@@ -175,8 +187,7 @@ class DrawerMenu extends StatelessWidget {
                     image: AssetImage("assets/icons/_-07.png"), width: 50),
                 title: Text("Каталог"),
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/catalog', (route) => false,
+                  Navigator.popAndPushNamed(context, '/catalog',
                       arguments: app);
                 },
               ),

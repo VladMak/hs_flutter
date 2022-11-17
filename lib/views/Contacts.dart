@@ -31,11 +31,54 @@ class Contacts extends StatelessWidget {
     App app = settings.arguments as App;
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: Container(
+            width: 100,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 45),
+            child: FloatingActionButton(
+              child: Image(
+                image: AssetImage("assets/virtcard.png"),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, "/cabinet");
+              },
+              backgroundColor: Color.fromARGB(0, 0, 0, 0),
+              elevation: 0,
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            Container(
+              child: Image(image: AssetImage("assets/logo.png")),
+              padding: EdgeInsets.all(5),
+            )
+          ],
+          leading: Builder(builder: (context) {
+            return GestureDetector(
+              child: Image(
+                image: AssetImage('assets/icons/_-12.png'),
+              ),
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
             "Контакты",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFE51D08),
+                    const Color(0xFFf2b11a),
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
           ),
           backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
@@ -90,8 +133,13 @@ class Contacts extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: SizedBox(
-                            child: Text(
-                              "Приемная e-mail: info@hlebsol.ru",
+                            child: GestureDetector(
+                              child: Text(
+                                "Приемная e-mail: vopros@slata.com",
+                              ),
+                              onTap: () {
+                                launch("mailto:vopros@slata.com");
+                              },
                             ),
                             width: 300,
                           ),
@@ -101,8 +149,13 @@ class Contacts extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.center,
                           child: SizedBox(
-                            child: Text(
-                              "Телефон: +7-395-248-08-01",
+                            child: GestureDetector(
+                              child: Text(
+                                "Телефон: +7-395-248-08-01",
+                              ),
+                              onTap: (() {
+                                launch("tel://+7-395-248-08-01");
+                              }),
                             ),
                             width: 300,
                           ),
@@ -113,6 +166,7 @@ class Contacts extends StatelessWidget {
                           alignment: Alignment.center,
                           child: SizedBox(
                             child: Row(children: [
+                              Text("Мы в Телеграмме: "),
                               GestureDetector(
                                 child: Image(
                                     image: AssetImage("assets/Logo.png"),
@@ -129,6 +183,7 @@ class Contacts extends StatelessWidget {
                           alignment: Alignment.center,
                           child: SizedBox(
                             child: Row(children: [
+                              Text("Мы в ВК: "),
                               GestureDetector(
                                 child: Image(
                                   image:

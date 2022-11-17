@@ -7,10 +7,10 @@ import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/domain/App.dart';
 import 'package:myapp/main.dart';
-import 'package:myapp/views/Coupons.dart';
-import 'package:myapp/views/Home.dart';
+import 'package:myapp/views/MyCoupons.dart';
 import 'package:myapp/views/PersonalDataProtection.dart';
 import 'package:myapp/views/ProfileEdit.dart';
+import 'package:myapp/views/ProfileEdit2.dart';
 import 'package:myapp/views/PurchaseHistory.dart';
 import 'package:myapp/views/UserAgreement.dart';
 import 'package:path/path.dart';
@@ -34,7 +34,6 @@ class Cabinet extends StatefulWidget {
 Future<dynamic> getData() async {
   var api = new Api();
   var jsonInfo = await api.GetUserData();
-
   return jsonInfo;
 }
 
@@ -52,11 +51,54 @@ class VirtualCard extends State<Cabinet> {
     }
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: Container(
+            width: 100,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 45),
+            child: FloatingActionButton(
+              child: Image(
+                image: AssetImage("assets/virtcard.png"),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, "/cabinet");
+              },
+              backgroundColor: Color.fromARGB(0, 0, 0, 0),
+              elevation: 0,
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            Container(
+              child: Image(image: AssetImage("assets/logo.png")),
+              padding: EdgeInsets.all(5),
+            )
+          ],
+          leading: Builder(builder: (context) {
+            return GestureDetector(
+              child: Image(
+                image: AssetImage('assets/icons/_-12.png'),
+              ),
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
             "Кабинет",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFE51D08),
+                    const Color(0xFFf2b11a),
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
           ),
           backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
@@ -161,8 +203,7 @@ class VirtualCard extends State<Cabinet> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
-                                      keyFragmentBody.currentContext
-                                          as BuildContext,
+                                      context,
                                       MaterialPageRoute(
                                           builder: (context) => MyCoupons()));
                                 },
@@ -186,10 +227,10 @@ class VirtualCard extends State<Cabinet> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   Navigator.push(
-                                      keyFragmentBody.currentContext
-                                          as BuildContext,
+                                      context,
                                       MaterialPageRoute(
-                                          builder: (context) => ProfileEdit()));
+                                          builder: (context) =>
+                                              ProfileEdit2()));
                                 },
                                 child: Text("Редактировать профиль"),
                                 style: ButtonStyle(backgroundColor:
@@ -301,7 +342,7 @@ class VirtualCard extends State<Cabinet> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 60),
                           child: Align(
                             alignment: Alignment.center,
                             child: SizedBox(
@@ -319,7 +360,7 @@ class VirtualCard extends State<Cabinet> {
                                   final db = await database;
                                   db.execute("delete from token;");
                                   Navigator.pushNamedAndRemoveUntil(
-                                      context, '/home', (route) => false);
+                                      context, '/login', (route) => false);
                                 },
                                 child: Text("Выйти"),
                                 style: ButtonStyle(backgroundColor:

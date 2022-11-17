@@ -4,6 +4,7 @@ import 'package:myapp/views/Catalog.dart';
 import 'package:myapp/views/Contacts.dart';
 import 'package:myapp/views/CouponItem.dart';
 import 'package:myapp/views/Coupons.dart';
+import 'package:myapp/views/ForgotPassword.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/PersonalDataProtection.dart';
@@ -23,7 +24,8 @@ class App {
     '/catalog': (context) => Catalog(),
     '/couponItem': (context) => CouponElement(),
     '/personalDataProtection': (context) => PersonalDataProtection(),
-    '/userAgreement': (context) => UserAgreement()
+    '/userAgreement': (context) => UserAgreement(),
+    '/forgotPassword': (context) => ForgotPassword()
   };
   String CouponId = "";
 }

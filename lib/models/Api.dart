@@ -219,6 +219,38 @@ class Api {
     return data;
   }
 
+  Future<void> UpdateUserData(
+      String firstname, String secondname, String surname, String email) async {
+    var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
+
+    var newbody = '''{
+          "token": "jQw62fyzVbsmMzRGjhfsdgy67ashqyHyfgAGSQHSFXNXHASDFKL8fsd6sHSADFfsdns",
+          "id": "0",
+          "name": "Vlad233",
+          "card": "0",
+          "email": "${email}",
+          "password": "testing",
+          "enter": "updateuserdata",
+          "userToken": "e98876cd-52a0-4117-87ef-6e61f9ae7422",
+          "level": 0,
+          "nextLevel": 0,
+          "sumShop": 0.0,
+          "countBonus": 0.0,
+          "firstname": "${firstname}",
+          "secondname": "${secondname}",
+          "surname": "${surname}"
+      }''';
+
+    print("REQUEST $newbody");
+    var response = await http.post(url, body: newbody);
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode != 200) throw Exception("Ошибка");
+
+    List<String> data = List.from(jsonDecode(response.body));
+  }
+
   Future<Widget> GetCoupons(BuildContext context, App app) async {
     try {
       var url = Uri.parse('https://smmon.slata.com/getOrder/go.php');
@@ -284,9 +316,7 @@ class Api {
             onTap: () {
               print("TAPPED: $coupon");
               app.CouponId = coupon;
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/couponItem', (route) => false,
-                  arguments: app);
+              Navigator.pushNamed(context, '/couponItem', arguments: app);
             },
           ));
         }

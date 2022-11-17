@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:myapp/drivers/image_worker.dart';
 
 class CarouselSales extends StatelessWidget {
   const CarouselSales({
@@ -47,67 +48,47 @@ class CatalogView extends StatefulWidget {
 class _CatalogViewState extends State<CatalogView> {
   CarouselController buttonController = CarouselController();
 
+  var imgworker = ImageWorker();
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      CarouselSlider(
-        carouselController: buttonController,
-        options: CarouselOptions(
-          height: 400.0,
-        ),
-        items: [1, 2, 3, 4, 5, 6, 7, 9].map((i) {
-          return Builder(
-            builder: (BuildContext context) {
-              return Padding(
-                  padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration:
-                          BoxDecoration(color: Colors.amber.withOpacity(0)),
-                      child: Image(
-                        image:
-                            AssetImage('assets/02/__' + i.toString() + '.png'),
-                      )));
-            },
-          );
-        }).toList(),
-      ),
-      Row(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              buttonController.previousPage(
-                  duration: Duration(milliseconds: 800), curve: Curves.linear);
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+    final mywidth = MediaQuery.of(context).size.width;
+    return FutureBuilder(
+      future: imgworker.getCatalogImages(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          var imgs = snapshot.data as List<String>;
+          return Column(children: <Widget>[
+            CarouselSlider(
+              carouselController: buttonController,
+              options: CarouselOptions(height: 550.0, viewportFraction: 1.0),
+              items: imgs.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Padding(
+                        padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
+                        child: Container(
+                          width: mywidth,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(color: Colors.black),
+                          child: Image.network(
+                            "https://smmon.slata.com/getOrder/" +
+                                "img/" +
+                                i.toString(),
+                            width: mywidth,
+                            fit: BoxFit.cover,
+                          ),
+                        ));
+                  },
+                );
+              }).toList(),
             ),
-            style: ButtonStyle(backgroundColor:
-                MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-            })),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              buttonController.nextPage(
-                  duration: Duration(milliseconds: 800), curve: Curves.linear);
-            },
-            child: Icon(
-              Icons.arrow_forward,
-              color: Colors.white,
-            ),
-            style: ButtonStyle(backgroundColor:
-                MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
-            })),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ),
-    ]);
+          ]);
+        } else {
+          return Text("Загружается...");
+        }
+      }),
+    )
+        /**/
+        ;
   }
 }

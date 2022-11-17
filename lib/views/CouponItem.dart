@@ -20,11 +20,54 @@ class _CouponElementState extends State<CouponElement> {
     App app = settings.arguments as App;
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: Container(
+            width: 100,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 45),
+            child: FloatingActionButton(
+              child: Image(
+                image: AssetImage("assets/virtcard.png"),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, "/cabinet");
+              },
+              backgroundColor: Color.fromARGB(0, 0, 0, 0),
+              elevation: 0,
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          actions: [
+            Container(
+              child: Image(image: AssetImage("assets/logo.png")),
+              padding: EdgeInsets.all(5),
+            )
+          ],
+          leading: Builder(builder: (context) {
+            return GestureDetector(
+              child: Image(
+                image: AssetImage('assets/icons/_-12.png'),
+              ),
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
-            "Ваш купон",
-            style: TextStyle(color: Colors.black),
+            "Купон",
+            style: TextStyle(color: Colors.white),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFE51D08),
+                    const Color(0xFFf2b11a),
+                  ],
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: const FractionalOffset(0.0, 1.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
           ),
           backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
         ),
@@ -46,6 +89,10 @@ class _CouponElementState extends State<CouponElement> {
                     drawText: false,
                   ),
                   padding: EdgeInsets.all(30),
+                ),
+                Container(
+                  child: Text("Тут описание купона"),
+                  padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
                 )
               ],
             ),

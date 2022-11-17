@@ -8,10 +8,29 @@ class UserAgreement extends StatelessWidget {
     return WillPopScope(
         child: Scaffold(
             appBar: AppBar(
-              iconTheme: IconThemeData(color: Colors.black),
+              actions: [
+                Container(
+                  child: Image(image: AssetImage("assets/logo.png")),
+                  padding: EdgeInsets.all(5),
+                )
+              ],
+              iconTheme: IconThemeData(color: Colors.white),
               title: Text(
                 "Отказ от бумажных чеков",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: TextStyle(color: Colors.white),
+              ),
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        const Color(0xFFE51D08),
+                        const Color(0xFFf2b11a),
+                      ],
+                      begin: const FractionalOffset(0.0, 0.0),
+                      end: const FractionalOffset(0.0, 1.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
               ),
               backgroundColor: Color.fromARGB(0xFF, 0xEC, 0xBA, 0x10),
             ),
