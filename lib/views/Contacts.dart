@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/contollers/DrawerMenu.dart';
 import 'package:myapp/contollers/BottomNavBarMenu.dart';
 import 'package:myapp/domain/App.dart';
+import 'package:myapp/views/Chat.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -196,6 +197,29 @@ class Contacts extends StatelessWidget {
                             width: 300,
                           ),
                         )),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Chat()));
+                            },
+                            child: Text("Тех. Поддержка"),
+                            style: ButtonStyle(backgroundColor:
+                                MaterialStateProperty.resolveWith<Color?>(
+                                    (Set<MaterialState> states) {
+                              return Color.fromARGB(0xFF, 0xB3, 0x19, 0x18);
+                            })),
+                          ),
+                          width: 300,
+                        ),
+                      ),
+                    ),
                   ],
                 )
               ],

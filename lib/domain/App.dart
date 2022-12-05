@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/Catalog.dart';
 import 'package:myapp/views/Contacts.dart';
-import 'package:myapp/views/CouponItem.dart';
+import 'package:myapp/views/CouponItem.dart' as ci;
 import 'package:myapp/views/Coupons.dart';
 import 'package:myapp/views/ForgotPassword.dart';
 import 'package:myapp/views/Home.dart';
@@ -22,7 +22,7 @@ class App {
     '/promotion': (context) => Sales(),
     '/shop': (context) => M.Map(),
     '/catalog': (context) => Catalog(),
-    '/couponItem': (context) => CouponElement(),
+    //'/couponItem': (context) => ci.CouponItemN(),
     '/personalDataProtection': (context) => PersonalDataProtection(),
     '/userAgreement': (context) => UserAgreement(),
     '/forgotPassword': (context) => ForgotPassword()

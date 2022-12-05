@@ -6,6 +6,7 @@ import 'package:myapp/drivers/image_worker.dart';
 import 'package:myapp/models/Api.dart';
 import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/SaleItem.dart';
+import 'package:myapp/views/CouponItem.dart' as ci;
 
 import '../main.dart';
 
@@ -193,7 +194,7 @@ class CouponItem extends StatelessWidget {
             "https://smmon.slata.com/getOrder/" + "img/" + this.src),
         onTap: () {
           Route route = MaterialPageRoute(
-              builder: ((context) => SaleItems(this.src, routes)));
+              builder: ((context) => ci.CouponItemN(this.src, routes)));
           Navigator.push(context, route);
         },
       ),

@@ -52,6 +52,7 @@ class _CatalogViewState extends State<CatalogView> {
   @override
   Widget build(BuildContext context) {
     final mywidth = MediaQuery.of(context).size.width;
+    var heigthOfCatalog = MediaQuery.of(context).size.height / 100 * 60;
     return FutureBuilder(
       future: imgworker.getCatalogImages(),
       builder: ((context, snapshot) {
@@ -60,7 +61,8 @@ class _CatalogViewState extends State<CatalogView> {
           return Column(children: <Widget>[
             CarouselSlider(
               carouselController: buttonController,
-              options: CarouselOptions(height: 550.0, viewportFraction: 1.0),
+              options: CarouselOptions(
+                  height: heigthOfCatalog, viewportFraction: 1.0),
               items: imgs.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
