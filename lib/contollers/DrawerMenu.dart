@@ -138,6 +138,25 @@ class DrawerMenu extends StatelessWidget {
                   )),
               child: ListTile(
                 leading: Image(
+                    image: AssetImage("assets/icons/_-07.png"), width: 50),
+                title: Text("Магазины2"),
+                onTap: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Map2()));
+                },
+              ),
+            ),
+            Container(
+              decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: Border(
+                    bottom: BorderSide(
+                        color: Color.fromARGB(100, 0, 0, 0), width: 1.0),
+                    left: BorderSide(color: Colors.white, width: 1.0),
+                    right: BorderSide(color: Colors.white, width: 1.0),
+                  )),
+              child: ListTile(
+                leading: Image(
                     image: AssetImage("assets/icons/_-05.png"), width: 50),
                 title: Text("Личный кабинет"),
                 onTap: () async {

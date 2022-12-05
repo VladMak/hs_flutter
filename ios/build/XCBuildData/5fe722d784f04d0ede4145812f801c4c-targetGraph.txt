@@ -1,0 +1,7 @@
+Target dependency graph (3 targets)
+Flutter in Pods, no dependencies
+url_launcher_ios in Pods, depends on:
+Flutter in Pods (explicit)
+Pods-Runner in Pods, depends on:
+Flutter in Pods (explicit)
+url_launcher_ios in Pods (explicit)
