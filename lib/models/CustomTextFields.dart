@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 // Обычное текстовое поле
@@ -25,7 +23,7 @@ class TextFieldItem extends StatefulWidget {
       this.icon,
       this.maxLines = 1,
       this.keyboardType = TextInputType.text,
-      this.textInputAction =TextInputAction.done,
+      this.textInputAction = TextInputAction.done,
       required this.onTap,
       this.onSave,
       this.onValidate})
@@ -61,7 +59,7 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
   }
 
   @override
-  void didUpdateWidget(func){
+  void didUpdateWidget(func) {
     super.didUpdateWidget(func);
     widget.textController.text = func.textController.text;
   }
@@ -91,7 +89,9 @@ class TextFieldItemState<T extends TextFieldItem> extends State<T> {
       controller: widget.textController,
       cursorColor: widget.focusColor,
       readOnly: widget.readOnly!,
-      onFieldSubmitted: (v){_focusNode.unfocus();},
+      onFieldSubmitted: (v) {
+        _focusNode.unfocus();
+      },
       onTap: () {
         setState(() {
           widget.onTap!();

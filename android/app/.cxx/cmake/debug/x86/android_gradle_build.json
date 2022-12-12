@@ -1,0 +1,67 @@
+{
+  "stringTable": {
+    "0": "/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86",
+    "1": "--target=i686-none-linux-android19 --gcc-toolchain=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIE",
+    "2": "--target=i686-none-linux-android19 --gcc-toolchain=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dmainlib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC",
+    "3": "null"
+  },
+  "buildFiles": [
+    "/home/mvasion/Документы/work/projects/C/maps_flutter/CMakeLists.txt",
+    "/home/mvasion/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/home/mvasion/Android/Sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" clean"
+  ],
+  "buildTargetsCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "main-Debug-x86": {
+      "buildCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" main",
+      "buildType": "debug",
+      "toolchain": "648571272",
+      "abi": "x86",
+      "artifactName": "main",
+      "files": [
+        {
+          "src": "/home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86/main",
+      "runtimeFiles": []
+    },
+    "mainlib-Debug-x86": {
+      "buildCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" mainlib",
+      "buildType": "debug",
+      "toolchain": "648571272",
+      "abi": "x86",
+      "artifactName": "mainlib",
+      "files": [
+        {
+          "src": "/home/mvasion/Документы/work/projects/C/maps_flutter/main.def",
+          "flagsOrdinal": 3,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c",
+          "flagsOrdinal": 2,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/home/mvasion/Документы/work/flutter/myapp/build/app/intermediates/cmake/debug/obj/x86/libmain.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "648571272": {
+      "cCompilerExecutable": "/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

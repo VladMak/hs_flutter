@@ -1,0 +1,5 @@
+ninja: Entering directory `/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86'
+[1/4] Building C object CMakeFiles/main.dir/src/main.c.o
+[2/4] Building C object CMakeFiles/mainlib.dir/src/main.c.o
+[3/4] Linking C executable main
+[4/4] Linking C shared library /home/mvasion/Документы/work/flutter/myapp/build/app/intermediates/cmake/debug/obj/x86/libmain.so

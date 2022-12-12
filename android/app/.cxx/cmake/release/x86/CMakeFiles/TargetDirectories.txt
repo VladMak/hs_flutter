@@ -1,0 +1,4 @@
+/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir
+/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
+/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86/CMakeFiles/main.dir
+/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86/CMakeFiles/mainlib.dir

@@ -1,0 +1,8 @@
+Executable : /home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86
+main
+mainlib
+jvmArgs : 
+

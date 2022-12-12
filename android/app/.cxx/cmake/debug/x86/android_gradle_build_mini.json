@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "/home/mvasion/Документы/work/projects/C/maps_flutter/CMakeLists.txt",
+    "/home/mvasion/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/home/mvasion/Android/Sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" clean"
+  ],
+  "buildTargetsCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "main-Debug-x86": {
+      "artifactName": "main",
+      "buildCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" main",
+      "abi": "x86",
+      "output": "/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86/main",
+      "runtimeFiles": []
+    },
+    "mainlib-Debug-x86": {
+      "artifactName": "mainlib",
+      "buildCommand": "/home/mvasion/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/debug/x86\" mainlib",
+      "abi": "x86",
+      "output": "/home/mvasion/Документы/work/flutter/myapp/build/app/intermediates/cmake/debug/obj/x86/libmain.so",
+      "runtimeFiles": []
+    }
+  }
+}

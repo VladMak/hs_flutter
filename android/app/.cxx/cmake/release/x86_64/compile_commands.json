@@ -1,0 +1,13 @@
+[
+{
+  "directory": "/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86_64",
+  "command": "/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=x86_64-none-linux-android21 --gcc-toolchain=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -DNDEBUG  -fPIE   -o CMakeFiles/main.dir/src/main.c.o   -c /home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c",
+  "file": "/home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c"
+},
+
+{
+  "directory": "/home/mvasion/Документы/work/flutter/myapp/android/app/.cxx/cmake/release/x86_64",
+  "command": "/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=x86_64-none-linux-android21 --gcc-toolchain=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/home/mvasion/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dmainlib_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -DNDEBUG  -fPIC   -o CMakeFiles/mainlib.dir/src/main.c.o   -c /home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c",
+  "file": "/home/mvasion/Документы/work/projects/C/maps_flutter/src/main.c"
+}
+]

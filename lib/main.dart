@@ -13,6 +13,7 @@ import 'package:myapp/views/Home.dart';
 import 'package:myapp/views/Cabinet.dart';
 import 'package:myapp/views/LoginSignupPage.dart';
 import 'package:myapp/views/Sales.dart';
+import 'package:myapp/views/Map.dart' as mm;
 
 // Основные экраны
 enum Screen { Home, Sales, Contacts, Cabinet, Coupons, Shops, Signup }
@@ -94,6 +95,5 @@ class _MainContainerState extends State<MainContainer> {
             return CircularProgressIndicator();
           }
         });
-    return Home();
   }
 }

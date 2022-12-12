@@ -1,0 +1,5 @@
+# ninja log v5
+0	14	1670311221	CMakeFiles/main.dir/src/main.c.o	b3fd00c0c91099b0
+1	15	1670311221	CMakeFiles/mainlib.dir/src/main.c.o	4ba285739eec9fa3
+14	23	1670311221	main	7742633fdf600951
+15	24	1670311221	/home/mvasion/Документы/work/flutter/myapp/build/app/intermediates/cmake/debug/obj/arm64-v8a/libmain.so	6781bfdf9fc9f93d

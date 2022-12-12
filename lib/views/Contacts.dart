@@ -5,6 +5,11 @@ import 'package:myapp/domain/App.dart';
 import 'package:myapp/views/Chat.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ffi' as ffi;
+
+final library = "/home/mvasion/working_files/libmain.so";
+typedef HelloWorldFunc = ffi.Void Function();
+typedef HelloWorld = void Function();
 
 final Uri _url = Uri.parse('https://t.me/hleb_sol');
 final Uri _url2 = Uri.parse('https://vk.com/hlebsol38');
@@ -204,10 +209,16 @@ class Contacts extends StatelessWidget {
                         child: SizedBox(
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Chat()));
+                              //Navigator.push(
+                              //    context,
+                              //    MaterialPageRoute(
+                              //        builder: (context) => Chat()));
+                              var d = ffi.DynamicLibrary.open(library);
+                              HelloWorld hello_func = d
+                                  .lookup<ffi.NativeFunction<HelloWorldFunc>>(
+                                      'print_hello')
+                                  .asFunction();
+                              hello_func();
                             },
                             child: Text("Тех. Поддержка"),
                             style: ButtonStyle(backgroundColor:
